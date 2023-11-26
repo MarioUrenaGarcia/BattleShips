@@ -31,25 +31,25 @@ int main(int argc, char *argv[])
   {
     switch (seleccion)
     {
-    case 1:
+    case 1: // Jugar contra Computadora
     {
       printf(YELLOW "\n\n\t\tJugar contra Computadora\n\n" RESET);
       return_to_menu(&seleccion); // Función que regresa al menú principal
       break;
     }
-    case 2:
+    case 2: // Jugar contra Jugador
     {
       printf(YELLOW "\n\n\t\tJugar contra Jugador\n\n" RESET);
       return_to_menu(&seleccion); // Función que regresa al menú principal
       break;
     }
-    case 3:
+    case 3: // Cargar Partida
     {
       printf(YELLOW "\n\n\t\tCargar Partida\n\n" RESET);
       return_to_menu(&seleccion); // Función que regresa al menú principal
       break;
     }
-    case 4:
+    case 4: // Salir del Juego
     {
       printf(YELLOW "\n\n\t\tSalir del Juego\n\n" RESET);
 
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
       return 0;
       break;
     }
-    case 5:
+    case 5: // PRUEBAS
     {
       printf(YELLOW "\t\tPRUEBA\n" RESET);
       imprimir_tablero(tablero);
