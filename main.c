@@ -26,7 +26,6 @@ int main(int argc, char *argv[])
   // Procesos
 
   seleccion = main_menu();
-
   do
   {
     switch (seleccion)
@@ -34,6 +33,7 @@ int main(int argc, char *argv[])
     case 1: // Jugar contra Computadora
     {
       printf(YELLOW "\n\n\t\tJugar contra Computadora\n\n" RESET);
+      partida_cpu();
       return_to_menu(&seleccion); // Función que regresa al menú principal
       break;
     }

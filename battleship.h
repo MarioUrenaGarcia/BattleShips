@@ -10,6 +10,7 @@
 #define GREEN "\x1b[32m"
 #define YELLOW "\x1b[33m"
 #define RESET "\x1b[0m"
+#define CYAN "\x1b[36m" // EN EL TABLERO REPTESENTA UN ESPACIO VACÍO
 
 #define TAB_SIZE 10 // Tamaño del tablero para que sea manipulable
 
@@ -42,3 +43,8 @@ typedef struct
 int main_menu();                                // Menú principal
 void imprimir_tablero(int tablero[][TAB_SIZE]); // Imprime el tablero de juego, el tablero de entrada depende de la situación.
 void return_to_menu(int *seleccion);            // Regresa al menú principal
+
+// Jugabilidad____________________________________________________________________________________
+void partida_cpu();
+void inicializar_tablero(int tablero[][TAB_SIZE]);
+void colocar_barcos(int tablero[][TAB_SIZE]);
