@@ -8,6 +8,7 @@
 #define GREEN "\x1b[32m"
 #define YELLOW "\x1b[33m"
 #define RESET "\x1b[0m"
+
 /**
  *   Que hace: Imprime el menú principal del juego.
  */
@@ -33,6 +34,26 @@ int main_menu()
     printf("\n\n");
 
     scanf("%d", &input);
+
+    // Si la entrada no es válida volver a preguntar
+    while (input < 1 || input > 5)
+    {
+        // Borrar pantalla y volver a imprimir el menú
+        system("clear");
+
+        // Reimprimir los créditos y el título
+        printf("\n\n\tEste juego fue creado por Mario Ureña García y Ricardo Ponce de León Vargas\n\n");
+        printf(YELLOW "BATTLESHIPS\n\n" RESET);
+        printf("\n1. Jugar contra Computadora");
+        printf("\n2. Jugar contra Jugador");
+        printf("\n3. Jugar contra Cargar Partida");
+        printf("\n4. Salir del Juego");
+        printf("\n5. PRUEBAS");
+        printf("\n\n");
+
+        printf("\nEntrada no válida, intente de nuevo: ");
+        scanf("%d", &input);
+    }
 
     switch (input)
     {
@@ -82,6 +103,20 @@ void return_to_menu(int *seleccion) // Seleccion es un puntero porque es necesar
     if (input == 'q' || input == 'Q')
     {
         *seleccion = main_menu(); // Regresar al menú principal
+    }
+
+    // Si la entrada no es válida volver a preguntar
+    while (input != 'q' && input != 'Q')
+    {
+        // Borrar última línea anterior
+        printf("\nEntrada no válida, intente de nuevo: ");
+        getchar();
+        scanf("%c", &input);
+        printf("\n\n");
+        if (input == 'q' || input == 'Q')
+        {
+            *seleccion = main_menu(); // Regresar al menú principal
+        }
     }
 }
 
