@@ -25,7 +25,7 @@ void mostrar_barra_carga(int paso, int total)
 {
     int porcentaje = (paso * 100) / total;
     printf("\rEspera, estoy pensando... [");
-    for (int i = 0; i < 100; i += 10) // Aumenta en incrementos de 10% para simplificar
+    for (int i = 0; i < 100; i += 5) // Aumenta en incrementos de 10% para simplificar
     {
         if (i < porcentaje)
         {

@@ -50,6 +50,7 @@ void inicializar_tablero(int tablero[][TAB_SIZE]);
 void colocar_barcos(int tablero[][TAB_SIZE], char nombre[]);
 void colocar_barcos_azar(int tablero[][TAB_SIZE]);
 void atacar(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], int *acertado);
+void ataque_azar(int tablero_victima[][TAB_SIZE], int *acertado, int casilla_disparada[1][1]);
 
 // General_______________________________________________________________________________________
 int generar_numero(int limite);

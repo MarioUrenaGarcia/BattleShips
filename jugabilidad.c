@@ -16,6 +16,7 @@ void partida_cpu()
     int turno = 2;    // Para determinar de quien es el turno
     int azar = 0;
     int acertado = 0;
+    int casilla_disparada[1][1]; // Almacena la casilla en donde CPU disparo en la ronda anterior.
     // Procesos
 
     // Inicializar datos de CPU
@@ -97,11 +98,7 @@ void partida_cpu()
         {
             system("clear");
             printf(YELLOW "\n\n\t\tTurno de %s\n\n" RESET, cpu.nombre);
-            imprimir_tablero(cpu.tablero_ataque);
-            // Aquí va el código de ataque de la CPU
-            // Aquí va el código de ataque de la CPU
-            // Aquí va el código de ataque de la CPU
-            // Aquí va el código de ataque de la CPU
+            ataque_azar(jugador1.tablero_defensa, &acertado, casilla_disparada);
             turno = 0;
         }
     }
@@ -377,6 +374,13 @@ void colocar_barcos_azar(int tablero[][TAB_SIZE])
     printf("\n");
 }
 
+/*
+    Que hace: Función para que el jugador ataque una casilla del tablero del rival.
+    @param tablero_visible: Tablero en el que se verá el proceso del ataque
+    @param tablero_victima: Tablero en el que se verá afectad el resultado del ataque del usuario.
+    @param acertado: Determina si el jugador ha acertado o no.
+*/
+
 void atacar(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], int *acertado)
 {
     int x, y;
@@ -458,5 +462,122 @@ void atacar(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], in
         printf(RED "¡Fallaste!\n" RESET);
         imprimir_tablero(tablero_visible);
         *acertado = 0;
+    }
+}
+
+/*
+    Que hace: Función para que la computadora ataque una casilla del tablero del rival. NO HAY TIROS CONSECUTIVOS.
+    @param tablero_victima: Tablero en el que se verá afectad el resultado del ataque del usuario.
+    @param casilla_disparada: En caso de que en el tiro anterior le haya dado a un barco, se disparará en un rango adyacente a la casilla anteriormente disparada.
+    @param acertado: Determina si el jugador ha acertado o no.
+*/
+void ataque_azar(int tablero_victima[][TAB_SIZE], int *acertado, int casilla_disparada[1][1])
+{
+    // Variables
+    int x, y;
+    int mult = 0;       // Para determinar si la coordenada adyacente se sumara  o se le testara un 1.
+    int valido = 0;     // Para elegir coordenada hasta que sea valida.
+    int adyacentes = 1; // Para definir si todavía quedan casillas adyacentes igualadas en 0.
+
+    // Procesos
+
+    // Primero se valida si en la ronda anterior le dio a una casilla, y si es así, se dispara en un rango adyacente a la casilla anteriormente disparada.
+    // Además, si ya no quedan espacios disponibles en valor 0 alrededor de esta, entonces ahora dispara en el rango completo (TAB_SIZE) al azar.
+
+    if (*acertado == 1)
+    {
+        do
+        {
+            // Si le ha dado a una casilla, entonces dispara en un rango adyacente a esta.
+            // Casilla anterios mas un numero aleatorio entre -1 y 1
+            mult = generar_numero(2);
+            if (mult == 0)
+            {
+                mult = -1;
+            }
+            x = casilla_disparada[0][0] + mult;
+
+            // Validar que no se salga del tablero
+            if (x > TAB_SIZE - 1 || x < 0)
+            {
+                x = casilla_disparada[0][0] - mult;
+            }
+
+            mult = generar_numero(2);
+            if (mult == 0)
+            {
+                mult = -1;
+            }
+            y = casilla_disparada[0][0] + mult;
+
+            // Validar que no se salga del tablero
+            if (y > TAB_SIZE - 1 || y < 0)
+            {
+                y = casilla_disparada[0][0] - mult;
+            }
+
+            // Validar que no se haya disparado a esa casilla antes
+            if (tablero_victima[y][x] == 0)
+            {
+                valido = 1;
+            }
+
+            // Validar que todavía haya casillas adyacentes en 0 alrededor de la casilla anteriormente disparada.
+            if (tablero_victima[y + 1][x] == 0 || tablero_victima[y - 1][x] == 0 || tablero_victima[y][x + 1] == 0 || tablero_victima[y][x - 1] == 0)
+            {
+                adyacentes = 1;
+            }
+            // Si ya no hay casillas adyacentes entonces elegir en el rango completo de (TAB_SIZE)
+            if (adyacentes == 0)
+            {
+                x = generar_numero(TAB_SIZE);
+                y = generar_numero(TAB_SIZE);
+                valido = 1;
+            }
+        } while (valido == 0);
+
+        // Modificar matriz
+        if (tablero_victima[y][x] == 1)
+        {
+            tablero_victima[y][x] = 3;
+            *acertado = 1;
+        }
+        else
+        {
+            tablero_victima[y][x] = 2;
+            *acertado = 0;
+        }
+
+        // Guardar coordenada disparada
+        casilla_disparada[0][0] = x, y;
+    }
+    else
+    {
+        // Si no le ha dado a una casilla, entonces dispara al azar en todo el tablero.
+        do
+        {
+            x = generar_numero(TAB_SIZE);
+            y = generar_numero(TAB_SIZE);
+
+            // Validar que no se haya disparado a esa casilla antes
+            if (tablero_victima[y][x] == 0)
+            {
+                valido = 1;
+            }
+        } while (valido == 0);
+        // Modificar matriz
+        if (tablero_victima[y][x] == 1)
+        {
+            tablero_victima[y][x] = 3;
+            *acertado = 1;
+        }
+        else
+        {
+            tablero_victima[y][x] = 2;
+            *acertado = 0;
+        }
+
+        // Guardar coordenada disparada
+        casilla_disparada[0][0] = x, y;
     }
 }
