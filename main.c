@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 {
 
   // Variables
-  int tablero[10][10] = {0};
+  int tablero[TAB_SIZE][TAB_SIZE] = {0};
   int seleccion = 0;
   // Procesos
 
@@ -33,32 +33,34 @@ int main(int argc, char *argv[])
     {
     case 1:
     {
-      printf("\n\n\t\tJugar contra Computadora\n\n");
+      printf(YELLOW "\n\n\t\tJugar contra Computadora\n\n" RESET);
       return_to_menu(&seleccion); // Función que regresa al menú principal
       break;
     }
     case 2:
     {
-      printf("\n\n\t\tJugar contra Jugador\n\n");
+      printf(YELLOW "\n\n\t\tJugar contra Jugador\n\n" RESET);
       return_to_menu(&seleccion); // Función que regresa al menú principal
       break;
     }
     case 3:
     {
-      printf("\n\n\t\tCargar Partida\n\n");
+      printf(YELLOW "\n\n\t\tCargar Partida\n\n" RESET);
       return_to_menu(&seleccion); // Función que regresa al menú principal
       break;
     }
     case 4:
     {
-      printf("\n\n\t\tSalir del Juego\n\n");
+      printf(YELLOW "\n\n\t\tSalir del Juego\n\n" RESET);
+
+      // FINALIZACIÓN DEL PROGRAMA
       printf("\tPrograma Finalizado con ÉXITO\n\n");
       return 0;
       break;
     }
     case 5:
     {
-      printf("PRUEBA\n\n");
+      printf(YELLOW "\t\tPRUEBA\n" RESET);
       imprimir_tablero(tablero);
       return_to_menu(&seleccion); // Función que regresa al menú principal
       break;
@@ -66,9 +68,6 @@ int main(int argc, char *argv[])
     }
   } while (1);
 
-  // FINALIZACIÓN DEL PROGRAMA
-  printf("Algo Falló\n\n");
+  printf("Algo Falló\n\n"); // Si llega a este punto es porque algo falló en el bucle principal
   return 1;
 }
-
-// Funciones -----------------------------------------------------------------------

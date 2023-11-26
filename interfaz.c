@@ -1,14 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#define RED "\x1b[31m"
-#define WHITE "\x1B[37m"
-#define BLUE "\x1b[34m"
-#define GREEN "\x1b[32m"
-#define YELLOW "\x1b[33m"
-#define RESET "\x1b[0m"
-
+#include "battleship.h"
 /**
  *   Que hace: Imprime el menú principal del juego.
  */
@@ -125,19 +118,19 @@ void return_to_menu(int *seleccion) // Seleccion es un puntero porque es necesar
  * @param tablero Matriz que representa el tablero de juego.
  */
 
-void imprimir_tablero(int tablero[][10])
+void imprimir_tablero(int tablero[][TAB_SIZE])
 {
     int i, j;
     printf("\n");
     // Imprimir borde superior
     printf("\t   ");
-    for (i = 0; i < 10; i++)
+    for (i = 0; i < TAB_SIZE; i++)
     {
         printf("--");
     }
     printf("\n");
 
-    for (i = 0; i < 10; i++)
+    for (i = 0; i < TAB_SIZE; i++)
     {
         printf("\t");
         // Imprimir letras de fila
@@ -146,7 +139,7 @@ void imprimir_tablero(int tablero[][10])
         // Imprimir borde izquierdo
         printf("| ");
 
-        for (j = 0; j < 10; j++)
+        for (j = 0; j < TAB_SIZE; j++)
         {
             if (tablero[i][j] == 0)
             {
@@ -161,7 +154,7 @@ void imprimir_tablero(int tablero[][10])
     // Imprimir borde inferior
     printf("\t  ");
     printf(" ");
-    for (i = 0; i < 10; i++)
+    for (i = 0; i < TAB_SIZE; i++)
     {
         printf("--");
     }
@@ -169,7 +162,7 @@ void imprimir_tablero(int tablero[][10])
 
     // Imprimir numeros de columna
     printf("\t    ");
-    for (i = 0; i < 10; i++)
+    for (i = 1; i <= TAB_SIZE; i++)
     {
         printf("%d ", i);
     }
