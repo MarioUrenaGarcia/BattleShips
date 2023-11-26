@@ -35,7 +35,7 @@ void partida_cpu()
     inicializar_tablero(cpu.tablero_defensa);
 
     // Luego se colocan los barcos del jugador
-    colocar_barcos(jugador1.tablero_defensa);
+    colocar_barcos(jugador1.tablero_defensa, jugador1.nombre);
 }
 
 /*
@@ -56,18 +56,19 @@ void inicializar_tablero(int tablero[][TAB_SIZE])
     }
 }
 
-void colocar_barcos(int tablero[][TAB_SIZE])
+void colocar_barcos(int tablero[][TAB_SIZE], char nombre[])
 {
     int i, j;
     int barcos[5] = {5, 4, 3, 3, 2}; // Arreglo que contiene los tamaños de los barcos
     char input;
-    int x, y;       // Coordenadas de los barcos
-    char direccion; // Dirección de los barcos
-    int direccionValida;
+    int x, y;             // Coordenadas de los barcos
+    char direccion;       // Dirección de los barcos
+    int direccion_valida; // Bandera para validar que la dirección sea válida en los bucles de comprobación
 
     for (i = 0; i < 5; i++)
     {
         system("clear");
+        printf(YELLOW "\n\nColocando barcos de %s\n" RESET, nombre);
         imprimir_tablero(tablero);
 
         printf("Coloque un barco de tamaño %d\n", barcos[i]);
@@ -102,7 +103,7 @@ void colocar_barcos(int tablero[][TAB_SIZE])
 
         do
         {
-            direccionValida = 1; // Asumimos que la dirección es válida inicialmente
+            direccion_valida = 1; // Asumimos que la dirección es válida inicialmente
             printf("\nIntroduzca la dirección del barco (A, B, D, I): ");
             getchar();
             scanf("%c", &direccion);
@@ -110,77 +111,81 @@ void colocar_barcos(int tablero[][TAB_SIZE])
             // Validar que el barco no se salga del tablero
             if ((direccion == 'A' || direccion == 'a') && y - barcos[i] + 1 < 0)
             {
-                direccionValida = 0;
+                direccion_valida = 0;
             }
             else if ((direccion == 'B' || direccion == 'b') && y + barcos[i] > TAB_SIZE)
             {
-                direccionValida = 0;
+                direccion_valida = 0;
             }
             else if ((direccion == 'D' || direccion == 'd') && x + barcos[i] > TAB_SIZE)
             {
-                direccionValida = 0;
+                direccion_valida = 0;
             }
             else if ((direccion == 'I' || direccion == 'i') && x - barcos[i] + 1 < 0)
             {
-                direccionValida = 0;
+                direccion_valida = 0;
             }
 
-            if (direccionValida == 0)
+            if (direccion_valida == 0)
             {
-                printf("\nDirección no válida, intente de nuevo: ");
+                printf("\nDirección no válida, intente de nuevo (el barco sale del tablero): ");
             }
 
-        } while (direccionValida == 0);
+        } while (direccion_valida == 0);
 
         // Validar que el barco no se cruce con otro barco
-        if (direccion == 'A' || direccion == 'a')
+
+        do
         {
-            for (j = 0; j < barcos[i]; j++)
+            direccion_valida = 1; // Asumimos que la dirección es válida inicialmente
+
+            if (direccion == 'A' || direccion == 'a')
             {
-                while (tablero[y - j][x] == 1)
+                for (j = 0; j <= barcos[i]; j++)
                 {
-                    printf("\nDirección no válida, intente de nuevo (el barco se cruza con otro barco): ");
-                    getchar();
-                    scanf("%c", &direccion);
+                    if (tablero[y - j][x] == 1)
+                    {
+                        direccion_valida = 0;
+                    }
                 }
             }
-        }
-        else if (direccion == 'B' || direccion == 'b')
-        {
-            for (j = 0; j < barcos[i]; j++)
+            else if (direccion == 'B' || direccion == 'b')
             {
-                while (tablero[y + j][x] == 1)
+                for (j = 0; j <= barcos[i]; j++)
                 {
-                    printf("\nDirección no válida, intente de nuevo (el barco se cruza con otro barco): ");
-                    getchar();
-                    scanf("%c", &direccion);
+                    if (tablero[y + j][x] == 1)
+                    {
+                        direccion_valida = 0;
+                    }
                 }
             }
-        }
-        else if (direccion == 'D' || direccion == 'd')
-        {
-            for (j = 0; j < barcos[i]; j++)
+            else if (direccion == 'D' || direccion == 'd')
             {
-                while (tablero[y][x + j] == 1)
+                for (j = 0; j <= barcos[i]; j++)
                 {
-                    printf("\nDirección no válida, intente de nuevo (el barco se cruza con otro barco): ");
-                    getchar();
-                    scanf("%c", &direccion);
+                    if (tablero[y][x + j] == 1)
+                    {
+                        direccion_valida = 0;
+                    }
                 }
             }
-        }
-        else if (direccion == 'I' || direccion == 'i')
-        {
-            for (j = 0; j < barcos[i]; j++)
+            else if (direccion == 'I' || direccion == 'i')
             {
-                while (tablero[y][x - j] == 1)
+                for (j = 0; j <= barcos[i]; j++)
                 {
-                    printf("\nDirección no válida, intente de nuevo (el barco se cruza con otro barco): ");
-                    getchar();
-                    scanf("%c", &direccion);
+                    if (tablero[y][x - j] == 1)
+                    {
+                        direccion_valida = 0;
+                    }
                 }
             }
-        }
+
+            if (direccion_valida == 0)
+            {
+                printf("\nDirección no válida, intente de nuevo (el barco se cruza con otro barco): ");
+            }
+
+        } while (direccion_valida == 0);
 
         // Colocar el barco en la matriz
         for (j = 0; j < barcos[i]; j++)
