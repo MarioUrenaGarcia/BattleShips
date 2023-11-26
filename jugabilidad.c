@@ -16,7 +16,7 @@ void partida_cpu()
     int turno = 2;    // Para determinar de quien es el turno
     int azar = 0;
     int acertado = 0;
-    int casilla_disparada[1][1]; // Almacena la casilla en donde CPU disparo en la ronda anterior.
+    int casilla_disparada[1][1] = {0}; // Almacena la casilla en donde CPU disparo en la ronda anterior.
     // Procesos
 
     // Inicializar datos de CPU
@@ -93,14 +93,37 @@ void partida_cpu()
             getchar();
             getchar();
             turno = 1;
+            victoria = detectar_victoria(cpu.tablero_defensa);
+            if (victoria == 1)
+            {
+                victoria = 1; // Determina que gano el jugador
+            }
         }
         else if (turno == 1) // turno de CPU
         {
             system("clear");
             printf(YELLOW "\n\n\t\tTurno de %s\n\n" RESET, cpu.nombre);
+            mostrar_barra_carga(0, 100);
             ataque_azar(jugador1.tablero_defensa, &acertado, casilla_disparada);
+            mostrar_barra_carga(100, 100);
             turno = 0;
+            victoria = detectar_victoria(jugador1.tablero_defensa);
+            if (victoria == 1)
+            {
+                victoria = 2; // Determina que gano el CPU
+            }
         }
+    }
+
+    // Fin de partida
+    if (victoria == 1)
+    {
+        system("clear");
+        printf(GREEN "VICTORIA" RESET);
+        printf(" de ");
+        printf(YELLOW "%s\n" RESET, jugador1.nombre);
+        imprimir_tablero(jugador1.tablero_defensa);
+        printf("\n");
     }
 }
 
@@ -580,4 +603,28 @@ void ataque_azar(int tablero_victima[][TAB_SIZE], int *acertado, int casilla_dis
         // Guardar coordenada disparada
         casilla_disparada[0][0] = x, y;
     }
+}
+
+/*
+    Que hace: Función para determinar si el jugador ha ganado o no.
+    @param tablero: Tablero en el que se verá afectad el resultado del ataque del usuario.
+    @return victoria: Determina si el jugador ha ganado o no.
+*/
+int detectar_victoria(int tablero[][TAB_SIZE])
+{
+    int i, j;
+    int victoria = 1; // Asumimos que el jugador ha ganado
+
+    for (i = 0; i < TAB_SIZE; i++)
+    {
+        for (j = 0; j < TAB_SIZE; j++)
+        {
+            if (tablero[i][j] == 1)
+            {
+                victoria = 0; // Si encuentra un barco, entonces el jugador no ha ganado
+            }
+        }
+    }
+
+    return victoria;
 }
