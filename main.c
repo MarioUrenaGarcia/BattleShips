@@ -60,8 +60,19 @@ int main(int argc, char *argv[])
     }
     case 5: // PRUEBAS
     {
+      PLAYER cpu; // Datos de CPU
+
+      // Inicializar datos de CPU
+      strcpy(cpu.nombre, "KAREN");
+      cpu.num = 2;
+      cpu.mina = 1;
+      cpu.mina_viva = 0;
+      cpu.barcos_restantes = 5;
+
       printf(YELLOW "\t\tPRUEBA\n" RESET);
-      imprimir_tablero(tablero);
+      inicializar_tablero(cpu.tablero_defensa);
+      colocar_barcos_cpu(cpu.tablero_defensa);
+      imprimir_tablero(cpu.tablero_defensa);
       return_to_menu(&seleccion); // Función que regresa al menú principal
       break;
     }
