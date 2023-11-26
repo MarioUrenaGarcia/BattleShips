@@ -5,7 +5,7 @@
 #define YELLOW "\x1b[33m"
 #define RESET "\x1b[0m"
 
-#define TAB_SIZE 10
+#define TAB_SIZE 10 // Tamaño del tablero para que sea manipulable
 // Interfaz
 int main_menu();
 void imprimir_tablero(int tablero[][TAB_SIZE]);

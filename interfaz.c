@@ -164,7 +164,14 @@ void imprimir_tablero(int tablero[][TAB_SIZE])
     printf("\t    ");
     for (i = 1; i <= TAB_SIZE; i++)
     {
-        printf("%d ", i);
+        if (i < 10)
+        {
+            printf("%d ", i);
+        }
+        else
+        {
+            printf("%d", i);
+        }
     }
 
     printf("\n\n");
