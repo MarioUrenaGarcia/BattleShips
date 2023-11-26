@@ -34,19 +34,19 @@ int main(int argc, char *argv[])
     case 1:
     {
       printf("\n\n\t\tJugar contra Computadora\n\n");
-      return_to_menu(&seleccion);
+      return_to_menu(&seleccion); // Función que regresa al menú principal
       break;
     }
     case 2:
     {
       printf("\n\n\t\tJugar contra Jugador\n\n");
-      return_to_menu(&seleccion);
+      return_to_menu(&seleccion); // Función que regresa al menú principal
       break;
     }
     case 3:
     {
       printf("\n\n\t\tCargar Partida\n\n");
-      return_to_menu(&seleccion);
+      return_to_menu(&seleccion); // Función que regresa al menú principal
       break;
     }
     case 4:
@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
     {
       printf("PRUEBA\n\n");
       imprimir_tablero(tablero);
-      return_to_menu(&seleccion);
+      return_to_menu(&seleccion); // Función que regresa al menú principal
       break;
     }
     }
