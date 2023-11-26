@@ -48,8 +48,10 @@ void return_to_menu(int *seleccion);            // Regresa al menú principal
 void partida_cpu();
 void inicializar_tablero(int tablero[][TAB_SIZE]);
 void colocar_barcos(int tablero[][TAB_SIZE], char nombre[]);
-void colocar_barcos_cpu(int tablero[][TAB_SIZE]);
+void colocar_barcos_azar(int tablero[][TAB_SIZE]);
+void atacar(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], int *acertado);
 
 // General_______________________________________________________________________________________
 int generar_numero(int limite);
 void mostrar_barra_carga(int paso, int total);
+char conv_mayus(char letra);

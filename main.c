@@ -70,9 +70,6 @@ int main(int argc, char *argv[])
       cpu.barcos_restantes = 5;
 
       printf(YELLOW "\t\tPRUEBA\n" RESET);
-      inicializar_tablero(cpu.tablero_defensa);
-      colocar_barcos_cpu(cpu.tablero_defensa);
-      imprimir_tablero(cpu.tablero_defensa);
       return_to_menu(&seleccion); // Función que regresa al menú principal
       break;
     }

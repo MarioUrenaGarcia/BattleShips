@@ -10,9 +10,12 @@
 void partida_cpu()
 {
     // Variables
-    PLAYER jugador1; // Datos de jugador
-    PLAYER cpu;      // Datos de CPU
-
+    PLAYER jugador1;  // Datos de jugador
+    PLAYER cpu;       // Datos de CPU
+    int victoria = 0; // Para determinar si el juego ha terminado o no
+    int turno = 2;    // Para determinar de quien es el turno
+    int azar = 0;
+    int acertado = 0;
     // Procesos
 
     // Inicializar datos de CPU
@@ -33,14 +36,75 @@ void partida_cpu()
     // Luego se inicializan los tableros
     inicializar_tablero(jugador1.tablero_defensa);
     inicializar_tablero(cpu.tablero_defensa);
+    inicializar_tablero(jugador1.tablero_ataque);
+    inicializar_tablero(cpu.tablero_ataque);
 
     // Luego se colocan los barcos del jugador
-    colocar_barcos(jugador1.tablero_defensa, jugador1.nombre);
-    // Luego se colocan los barcos de la CPU aleatoriament
-    colocar_barcos_cpu(cpu.tablero_defensa);
-
     system("clear");
-    imprimir_tablero(cpu.tablero_defensa);
+    printf(YELLOW "\n\n\t¿Quieres colocar tus barcos al azar? (1 Si/ 0 No):     " RESET);
+    scanf("%d", &azar);
+    if (azar == 1)
+    {
+        printf(YELLOW "\n\nColocando tus Barcos:  \n" RESET);
+        colocar_barcos_azar(jugador1.tablero_defensa);
+    }
+    else
+    {
+        colocar_barcos(jugador1.tablero_defensa, jugador1.nombre);
+    }
+
+    // Luego se colocan los barcos de la CPU aleatoriamente
+    printf(YELLOW "\n\nColocando los Barcos de %s:  \n" RESET, cpu.nombre);
+    colocar_barcos_azar(cpu.tablero_defensa);
+
+    // Inicio de partida
+    turno = generar_numero(2); // Se decide quien empieza
+    system("clear");
+
+    while (victoria == 0)
+    {
+        if (turno == 0) // turno de jugador
+        {
+            system("clear");
+            printf(YELLOW "\n\n\t\tTurno de %s\n\n" RESET, jugador1.nombre);
+            printf(BLUE "Tu tablero de defensa:     " RESET);
+
+            if (acertado == 1)
+            {
+                printf(RED "¡Te han disparado un barco!\n" RESET);
+            }
+            else
+            {
+                printf(GREEN "No te han disparado ningún barco\n" RESET);
+            }
+
+            imprimir_tablero(jugador1.tablero_defensa);
+            printf("Presione enter para continuar");
+            getchar();
+            getchar();
+
+            system("clear");
+            printf(YELLOW "\n\n\t\tTurno de %s\n\n" RESET, jugador1.nombre);
+            printf(RED "Tu tablero de ATAQUE\n" RESET);
+            imprimir_tablero(jugador1.tablero_ataque);
+            atacar(jugador1.tablero_ataque, cpu.tablero_defensa, &acertado);
+            printf("Presione enter para continuar:  ");
+            getchar();
+            getchar();
+            turno = 1;
+        }
+        else if (turno == 1) // turno de CPU
+        {
+            system("clear");
+            printf(YELLOW "\n\n\t\tTurno de %s\n\n" RESET, cpu.nombre);
+            imprimir_tablero(cpu.tablero_ataque);
+            // Aquí va el código de ataque de la CPU
+            // Aquí va el código de ataque de la CPU
+            // Aquí va el código de ataque de la CPU
+            // Aquí va el código de ataque de la CPU
+            turno = 0;
+        }
+    }
 }
 
 /*
@@ -224,7 +288,7 @@ void colocar_barcos(int tablero[][TAB_SIZE], char nombre[])
     Que hace: Función para que la computadora coloque sus barcos en el tablero al azar.
     @param tablero: Tablero en el que se colocarán los barcos
 */
-void colocar_barcos_cpu(int tablero[][TAB_SIZE])
+void colocar_barcos_azar(int tablero[][TAB_SIZE])
 {
     int i, j;
     int barcos[5] = {5, 4, 3, 3, 2}; // Arreglo que contiene los tamaños de los barcos
@@ -311,4 +375,88 @@ void colocar_barcos_cpu(int tablero[][TAB_SIZE])
         mostrar_barra_carga(i + 1, 5);
     }
     printf("\n");
+}
+
+void atacar(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], int *acertado)
+{
+    int x, y;
+    char input;
+    // Pedir coordenada Y
+    printf("Introduzca la coordenada y: ");
+    scanf("%c", &input);
+
+    input = conv_mayus(input); // Convertir a mayúscula
+    y = input - 'A';           // Convertir letra a número
+
+    // Validar existencia de coordenada Y
+    while (y > TAB_SIZE - 1 || y < 0)
+    {
+        printf("\nCoordenada no válida, intente de nuevo: ");
+        scanf("%c", &input);
+        y = input - 'A';
+    }
+
+    // Pedir coordenada X
+    printf("\nIntroduzca la coordenada x: ");
+    scanf("%d", &x);
+    x = x - 1;
+
+    // Validar existencia de coordenada X
+    while (x > TAB_SIZE - 1 || x < 0)
+    {
+        printf("\nCoordenada no válida, intente de nuevo: ");
+        scanf("%d", &x);
+        x = x - 1;
+    }
+
+    // Validar si se ha disparado a esa casilla antes
+    while (tablero_visible[y][x] != 0)
+    {
+        printf("\nYa has disparado a esa casilla, intente de nuevo: ");
+        printf("Introduzca la coordenada y: ");
+        scanf("%c", &input);
+        input = conv_mayus(input); // Convertir a mayúscula
+        y = input - 'A';           // Convertir letra a número
+
+        // Validar existencia de coordenada Y
+        while (y > TAB_SIZE - 1 || y < 0)
+        {
+            printf("\nCoordenada no válida, intente de nuevo\n\n");
+
+            scanf("%c", &input);
+            y = input - 'A';
+        }
+
+        // Pedir coordenada X
+        printf("\nIntroduzca la coordenada x: ");
+        scanf("%d", &x);
+        x = x - 1;
+
+        // Validar existencia de coordenada X
+        while (x > TAB_SIZE - 1 || x < 0)
+        {
+            printf("\nCoordenada no válida, intente de nuevo: ");
+            scanf("%d", &x);
+            x = x - 1;
+        }
+    }
+
+    if (tablero_victima[y][x] == 1)
+    {
+        tablero_visible[y][x] = 3;
+        tablero_victima[y][x] = 3;
+
+        system("clear");
+        printf(YELLOW "¡Le diste a un barco!\n" RESET);
+        imprimir_tablero(tablero_visible);
+        *acertado = 1;
+    }
+    else
+    {
+        tablero_visible[y][x] = 2;
+        system("clear");
+        printf(RED "¡Fallaste!\n" RESET);
+        imprimir_tablero(tablero_visible);
+        *acertado = 0;
+    }
 }
