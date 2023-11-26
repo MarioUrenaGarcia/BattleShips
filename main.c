@@ -22,13 +22,53 @@ int main(int argc, char *argv[])
 
   // Variables
   int tablero[10][10] = {0};
-
+  int seleccion = 0;
   // Procesos
-  main_menu();
+
+  seleccion = main_menu();
+
+  do
+  {
+    switch (seleccion)
+    {
+    case 1:
+    {
+      printf("\n\n\t\tJugar contra Computadora\n\n");
+      return_to_menu(&seleccion);
+      break;
+    }
+    case 2:
+    {
+      printf("\n\n\t\tJugar contra Jugador\n\n");
+      return_to_menu(&seleccion);
+      break;
+    }
+    case 3:
+    {
+      printf("\n\n\t\tCargar Partida\n\n");
+      return_to_menu(&seleccion);
+      break;
+    }
+    case 4:
+    {
+      printf("\n\n\t\tSalir del Juego\n\n");
+      printf("\tPrograma Finalizado con ÉXITO\n\n");
+      return 0;
+      break;
+    }
+    case 5:
+    {
+      printf("PRUEBA\n\n");
+      imprimir_tablero(tablero);
+      return_to_menu(&seleccion);
+      break;
+    }
+    }
+  } while (1);
 
   // FINALIZACIÓN DEL PROGRAMA
-  printf("\n\n\tPrograma Finalizado con ÉXITO\n\n");
-  return 0;
+  printf("Algo Falló\n\n");
+  return 1;
 }
 
 // Funciones -----------------------------------------------------------------------

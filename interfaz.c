@@ -3,7 +3,7 @@
 #include <string.h>
 
 /**
- *   Que hace: Imprime el menú principal del juego
+ *   Que hace: Imprime el menú principal del juego.
  */
 
 int main_menu()
@@ -28,35 +28,71 @@ int main_menu()
 
     switch (input)
     {
-    case 1:
+    case 1: // Jugar contra Computadora
     {
         system("clear");
-        printf("Jugar contra Computadora"); // Prueba de Funcionamiento de selección de modo de juego
-
         return 1;
         break;
     }
-    case 2:
+    case 2: // Jugar contra Jugador
     {
         system("clear");
-        printf("Jugar contra Jugador"); // Prueba de Funcionamiento de selección de modo de juego
-
         return 2;
         break;
     }
-    case 3:
+    case 3: // Cargar Partida
     {
         system("clear");
-        printf("Cargar Partida"); // Prueba de Funcionamiento de selección de modo de juego
-
         return 3;
         break;
     }
     case 4: // Salir del Juego FUNCIONAL
     {
         system("clear");
-        exit(0);
+        return 4;
         break;
     }
+    case 5: // Opción para hacer pruebas
+    {
+        system("clear");
+        return 5;
+        break;
+    }
+    }
+}
+
+/*
+    Que hace: Abrir menu si presiona la tecla Q
+*/
+void return_to_menu(int *seleccion)
+{
+    char input;
+    printf("\nPresione Q para regresar al menú principal: ");
+    getchar();
+    scanf("%c", &input);
+    printf("\n\n");
+    if (input == 'q' || input == 'Q')
+    {
+        *seleccion = main_menu(); // Regresar al menú principal
+    }
+}
+
+/**
+ * Imprime el tablero de juego.
+ * @param tablero Matriz que representa el tablero de juego.
+ */
+
+void imprimir_tablero(int tablero[][10])
+{
+    int i, j;
+    printf("\n");
+    for (i = 0; i < 10; i++)
+    {
+        printf("\t");
+        for (j = 0; j < 10; j++)
+        {
+            printf("%d ", tablero[i][j]);
+        }
+        printf("\n");
     }
 }
