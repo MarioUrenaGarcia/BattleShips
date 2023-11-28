@@ -157,6 +157,10 @@ void imprimir_tablero(int tablero[][TAB_SIZE])
             {
                 printf(YELLOW "■ " RESET); // Imprimir espacio vacío. 3 Representa un disparo exitoso
             }
+            else if (tablero[i][j] == 4)
+            {
+                printf(GREEN "■ " RESET); // Imprimir espacio vacío. 4 Representa una mina
+            }
         }
         // Imprimir borde derecho
         printf("|");

@@ -70,6 +70,11 @@ void partida_cpu()
             printf(YELLOW "\n\n\t\tTurno de %s\n\n" RESET, jugador1.nombre);
             printf(BLUE "Tu tablero de defensa:     " RESET);
 
+            if (jugador1.mina == 0)
+            {
+                mover_mina(&jugador1, cpu.tablero_defensa, jugador1.tablero_ataque, &acertado);
+            }
+
             if (acertado == 1)
             {
                 printf(RED "¡Te han disparado un barco!\n" RESET);
@@ -88,7 +93,16 @@ void partida_cpu()
             printf(YELLOW "\n\n\t\tTurno de %s\n\n" RESET, jugador1.nombre);
             printf(RED "Tu tablero de ATAQUE\n" RESET);
             imprimir_tablero(jugador1.tablero_ataque);
+
+            if (jugador1.mina == 1)
+            {
+                printf(YELLOW "FASE DE MINA ACUÁTICA" RESET);
+                lanzamiento_mina(jugador1.tablero_ataque, cpu.tablero_defensa, &jugador1, &acertado);
+            }
+
+            printf(YELLOW "FASE DE DISPARO\n" RESET);
             atacar(jugador1.tablero_ataque, cpu.tablero_defensa, &acertado);
+
             printf("Presione enter para continuar:  ");
             getchar();
             getchar();
@@ -410,7 +424,7 @@ void atacar(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], in
     char input;
     // Pedir coordenada Y
     printf("Introduzca la coordenada y: ");
-    scanf("%c", &input);
+    scanf(" %c", &input);
 
     input = conv_mayus(input); // Convertir a mayúscula
     y = input - 'A';           // Convertir letra a número
@@ -419,20 +433,20 @@ void atacar(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], in
     while (y > TAB_SIZE - 1 || y < 0)
     {
         printf("\nCoordenada no válida, intente de nuevo: ");
-        scanf("%c", &input);
+        scanf(" %c", &input);
         y = input - 'A';
     }
 
     // Pedir coordenada X
-    printf("\nIntroduzca la coordenada x: ");
-    scanf("%d", &x);
+    printf("Introduzca la coordenada x: ");
+    scanf(" %d", &x);
     x = x - 1;
 
     // Validar existencia de coordenada X
     while (x > TAB_SIZE - 1 || x < 0)
     {
         printf("\nCoordenada no válida, intente de nuevo: ");
-        scanf("%d", &x);
+        scanf(" %d", &x);
         x = x - 1;
     }
 
@@ -441,7 +455,7 @@ void atacar(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], in
     {
         printf("\nYa has disparado a esa casilla, intente de nuevo: ");
         printf("Introduzca la coordenada y: ");
-        scanf("%c", &input);
+        scanf(" %c", &input);
         input = conv_mayus(input); // Convertir a mayúscula
         y = input - 'A';           // Convertir letra a número
 
@@ -450,20 +464,20 @@ void atacar(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], in
         {
             printf("\nCoordenada no válida, intente de nuevo\n\n");
 
-            scanf("%c", &input);
+            scanf(" %c", &input);
             y = input - 'A';
         }
 
         // Pedir coordenada X
-        printf("\nIntroduzca la coordenada x: ");
-        scanf("%d", &x);
+        printf("Introduzca la coordenada x: ");
+        scanf(" %d", &x);
         x = x - 1;
 
         // Validar existencia de coordenada X
         while (x > TAB_SIZE - 1 || x < 0)
         {
             printf("\nCoordenada no válida, intente de nuevo: ");
-            scanf("%d", &x);
+            scanf(" %d", &x);
             x = x - 1;
         }
     }
@@ -496,113 +510,61 @@ void atacar(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], in
 */
 void ataque_azar(int tablero_victima[][TAB_SIZE], int *acertado, int casilla_disparada[1][1])
 {
-    // Variables
     int x, y;
-    int mult = 0;       // Para determinar si la coordenada adyacente se sumara  o se le testara un 1.
-    int valido = 0;     // Para elegir coordenada hasta que sea valida.
-    int adyacentes = 1; // Para definir si todavía quedan casillas adyacentes igualadas en 0.
-
-    // Procesos
-
-    // Primero se valida si en la ronda anterior le dio a una casilla, y si es así, se dispara en un rango adyacente a la casilla anteriormente disparada.
-    // Además, si ya no quedan espacios disponibles en valor 0 alrededor de esta, entonces ahora dispara en el rango completo (TAB_SIZE) al azar.
+    int valido = 0;
+    int direccion; // Variable para almacenar la dirección de ataque
 
     if (*acertado == 1)
     {
         do
         {
-            // Si le ha dado a una casilla, entonces dispara en un rango adyacente a esta.
-            // Casilla anterios mas un numero aleatorio entre -1 y 1
-            mult = generar_numero(2);
-            if (mult == 0)
-            {
-                mult = -1;
-            }
-            x = casilla_disparada[0][0] + mult;
+            // Seleccionar una dirección aleatoria: 0 = arriba, 1 = abajo, 2 = izquierda, 3 = derecha
+            direccion = generar_numero(4);
 
-            // Validar que no se salga del tablero
-            if (x > TAB_SIZE - 1 || x < 0)
-            {
-                x = casilla_disparada[0][0] - mult;
-            }
+            // Establecer las coordenadas basadas en la dirección seleccionada
+            x = casilla_disparada[0][0];
+            y = casilla_disparada[0][0];
 
-            mult = generar_numero(2);
-            if (mult == 0)
-            {
-                mult = -1;
-            }
-            y = casilla_disparada[0][0] + mult;
+            if (direccion == 0 && y > 0)
+                y--;
+            else if (direccion == 1 && y < TAB_SIZE - 1)
+                y++;
+            else if (direccion == 2 && x > 0)
+                x--;
+            else if (direccion == 3 && x < TAB_SIZE - 1)
+                x++;
 
-            // Validar que no se salga del tablero
-            if (y > TAB_SIZE - 1 || y < 0)
+            // Verificar que la casilla no haya sido atacada antes
+            if (tablero_victima[y][x] != 2 && tablero_victima[y][x] != 3)
             {
-                y = casilla_disparada[0][0] - mult;
-            }
-
-            // Validar que no se haya disparado a esa casilla antes
-            if (tablero_victima[y][x] == 0)
-            {
-                valido = 1;
-            }
-
-            // Validar que todavía haya casillas adyacentes en 0 alrededor de la casilla anteriormente disparada.
-            if (tablero_victima[y + 1][x] == 0 || tablero_victima[y - 1][x] == 0 || tablero_victima[y][x + 1] == 0 || tablero_victima[y][x - 1] == 0)
-            {
-                adyacentes = 1;
-            }
-            // Si ya no hay casillas adyacentes entonces elegir en el rango completo de (TAB_SIZE)
-            if (adyacentes == 0)
-            {
-                x = generar_numero(TAB_SIZE);
-                y = generar_numero(TAB_SIZE);
                 valido = 1;
             }
         } while (valido == 0);
-
-        // Modificar matriz
-        if (tablero_victima[y][x] == 1)
-        {
-            tablero_victima[y][x] = 3;
-            *acertado = 1;
-        }
-        else
-        {
-            tablero_victima[y][x] = 2;
-            *acertado = 0;
-        }
-
-        // Guardar coordenada disparada
-        casilla_disparada[0][0] = x, y;
     }
     else
     {
-        // Si no le ha dado a una casilla, entonces dispara al azar en todo el tablero.
+        // Si no acertó en el último disparo, elegir una casilla al azar
         do
         {
             x = generar_numero(TAB_SIZE);
             y = generar_numero(TAB_SIZE);
-
-            // Validar que no se haya disparado a esa casilla antes
-            if (tablero_victima[y][x] == 0)
-            {
-                valido = 1;
-            }
-        } while (valido == 0);
-        // Modificar matriz
-        if (tablero_victima[y][x] == 1)
-        {
-            tablero_victima[y][x] = 3;
-            *acertado = 1;
-        }
-        else
-        {
-            tablero_victima[y][x] = 2;
-            *acertado = 0;
-        }
-
-        // Guardar coordenada disparada
-        casilla_disparada[0][0] = x, y;
+        } while (tablero_victima[y][x] == 2 || tablero_victima[y][x] == 3); // Evitar casillas ya atacadas
     }
+
+    // Realizar el ataque
+    if (tablero_victima[y][x] == 1)
+    {
+        tablero_victima[y][x] = 3;
+        *acertado = 1;
+    }
+    else if (tablero_victima[y][x] == 0)
+    {
+        tablero_victima[y][x] = 2;
+        *acertado = 0;
+    }
+
+    // Actualizar la última casilla disparada
+    casilla_disparada[0][0] = y, x;
 }
 
 /*
@@ -627,4 +589,227 @@ int detectar_victoria(int tablero[][TAB_SIZE])
     }
 
     return victoria;
+}
+
+/*
+    Que hace: Función para lanzar la mina acuática manualmente.
+
+    La mina es un elemento de un solo uso en el juego.
+    Esta se lanza a una casilla del tablero de ataque. Si cae sobre un barco, esta se destruye;
+    pero si cae sobre una casilla vacía, esta se convierte en una mina activa que irá recorriendo
+    turno por turno el tablero entero hasta que se encuentre con un barco, en cuyo caso este será
+    destruido, o hasta que se acabe el juego, en cuyo caso la mina se desactiva.
+
+    @param tablero: Tablero en el que se verá afectad el resultado del ataque del usuario.
+    @param jugador: Jugador que está lanzando la mina. Para desactivar la mina acuatica de su inventario.
+*/
+
+void lanzamiento_mina(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], PLAYER *jugador, int *acertado)
+{
+    int lanzar;
+    int x, y;
+    char input;
+
+    if (jugador->mina == 1)
+    {
+        printf("\nDesea lanzar su mina? (1 Si/ 0 No):     ");
+        scanf("%d", &lanzar);
+
+        if (lanzar == 1)
+        {
+            // Pedir coordenada Y
+            printf("Introduzca la coordenada y: ");
+            scanf(" %c", &input);
+
+            input = conv_mayus(input); // Convertir a mayúscula
+            y = input - 'A';           // Convertir letra a número
+
+            // Validar existencia de coordenada Y
+            while (y > TAB_SIZE - 1 || y < 0)
+            {
+                printf("\nCoordenada no válida, intente de nuevo: ");
+                scanf(" %c", &input);
+                y = input - 'A';
+            }
+
+            // Pedir coordenada X
+            printf("Introduzca la coordenada x: ");
+            scanf(" %d", &x);
+            x = x - 1;
+
+            // Validar existencia de coordenada X
+            while (x > TAB_SIZE - 1 || x < 0)
+            {
+                printf("\nCoordenada no válida, intente de nuevo: ");
+                scanf(" %d", &x);
+                x = x - 1;
+            }
+
+            // Validar si se ha disparado a esa casilla antes
+            while (tablero_visible[y][x] != 0)
+            {
+                printf("\nYa has disparado a esa casilla, intente de nuevo: ");
+                printf("Introduzca la coordenada y: ");
+                scanf(" %c", &input);
+                input = conv_mayus(input); // Convertir a mayúscula
+                y = input - 'A';           // Convertir letra a número
+
+                // Validar existencia de coordenada Y
+                while (y > TAB_SIZE - 1 || y < 0)
+                {
+                    printf("\nCoordenada no válida, intente de nuevo\n\n");
+
+                    scanf(" %c", &input);
+                    y = input - 'A';
+                }
+
+                // Pedir coordenada X
+                printf("Introduzca la coordenada x: ");
+                scanf(" %d", &x);
+                x = x - 1;
+
+                // Validar existencia de coordenada X
+                while (x > TAB_SIZE - 1 || x < 0)
+                {
+                    printf("\nCoordenada no válida, intente de nuevo: ");
+                    scanf(" %d", &x);
+                    x = x - 1;
+                }
+            }
+
+            // Modificar la matriz para posicionar la mina en caso de que no haya colisionado con un barco
+            if (tablero_victima[y][x] == 0)
+            {
+                tablero_visible[y][x] = 4;
+
+                system("clear");
+                printf(YELLOW "¡Mina colocada!\n" RESET);
+                imprimir_tablero(tablero_visible);
+                *acertado = 0;
+            }
+            else if (tablero_victima[y][x] == 1)
+            {
+                tablero_visible[y][x] = 3;
+                tablero_victima[y][x] = 3;
+
+                system("clear");
+                printf(YELLOW "¡Le diste a un barco!\n" RESET);
+                imprimir_tablero(tablero_visible);
+                *acertado = 1;
+            }
+
+            // Desactivar mina del inventario
+            jugador->mina = 0;
+        }
+    }
+}
+
+/*
+    Que hace: Función para desplazar la mina acuatica en el tablero de ataque y defensa. La mina es como tirar 2 veces por partida, pues su posicion anterior antes
+    de moverse la marca como atacada, y si en el siguiente turno se encuentra con un barco, este es marcado como atacado, y la mina se desactiva.
+
+    La mina se desplaza aleatoriamente a una casilla adyacente a ella. Horizontal o Vertical.
+    @param tablero_visible: Tablero en el que se verá el proceso del ataque
+    @param tablero_victima: Tablero en el que se verá afectado el resultado del ataque del usuario.
+*/
+void mover_mina(PLAYER *jugador, int tablero_victima[][TAB_SIZE], int tablero_visible[][TAB_SIZE], int *acertado)
+{
+    int x, y;
+    int valido = 0;
+    int direccion; // Variable para almacenar la dirección de ataque
+    int intentos = 0;
+
+    if (jugador->mina_viva == 0 && jugador->mina == 0)
+    {
+        do
+        {
+            // Seleccionar una dirección aleatoria: 0 = arriba, 1 = abajo, 2 = izquierda, 3 = derecha
+            direccion = generar_numero(4);
+
+            // Establecer las coordenadas basadas en la dirección seleccionada
+            x = jugador->mina_x;
+            y = jugador->mina_y;
+
+            if (direccion == 0 && y > 0)
+            {
+                y--;
+                // Verificar que la casilla no haya sido atacada antes
+                if (tablero_victima[y][x] != 2 && tablero_victima[y][x] != 3)
+                {
+                    valido = 1;
+                }
+            }
+            else if (direccion == 1 && y < TAB_SIZE - 1)
+            {
+                y++;
+                // Verificar que la casilla no haya sido atacada antes
+                if (tablero_victima[y][x] != 2 && tablero_victima[y][x] != 3)
+                {
+                    valido = 1;
+                }
+            }
+            else if (direccion == 2 && x > 0)
+            {
+                x--;
+                // Verificar que la casilla no haya sido atacada antes
+                if (tablero_victima[y][x] != 2 && tablero_victima[y][x] != 3)
+                {
+                    valido = 1;
+                }
+            }
+            else if (direccion == 3 && x < TAB_SIZE - 1)
+            {
+                x++;
+                // Verificar que la casilla no haya sido atacada antes
+                if (tablero_victima[y][x] != 2 && tablero_victima[y][x] != 3)
+                {
+                    valido = 1;
+                }
+            }
+            else
+            {
+                valido = 0;
+            }
+            intentos++;
+        } while (valido == 0 && intentos <= 4);
+
+        // Realizar el ataque
+        // Si la mina queda atrapada
+        if (intentos > 4)
+        {
+            tablero_visible[y][x] = 2;
+            tablero_victima[y][x] = 2;
+            jugador->mina_viva = 1; // Mata a la mina
+
+            system("clear");
+            printf(RED "¡LA MINA QUEDÓ ATRAPADA!\n" RESET);
+            imprimir_tablero(tablero_visible);
+            *acertado = 1;
+        }
+        // Si no hay barco
+        else if (tablero_victima[y][x] == 0)
+        {
+            tablero_visible[y][x] = 4;
+            tablero_visible[jugador->mina_y][jugador->mina_x] = 2;
+            jugador->mina_x = x;
+            jugador->mina_y = y;
+            *acertado = 0;
+        }
+        // Si hay barco
+        else if (tablero_victima[y][x] == 1)
+        {
+            tablero_visible[y][x] = 3;
+            tablero_victima[y][x] = 3;
+            jugador->mina_viva = 1; // Mata a la mina
+
+            system("clear");
+            printf(YELLOW "¡Le diste a un barco!\n" RESET);
+            imprimir_tablero(tablero_visible);
+            *acertado = 1;
+        }
+
+        // Actualizar la última casilla disparada
+        jugador->mina_x = x;
+        jugador->mina_y = y;
+    }
 }

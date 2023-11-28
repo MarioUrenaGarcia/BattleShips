@@ -33,6 +33,8 @@ typedef struct
   */
   int mina;      // Determina si el jugador puede lanzar una mina o no
   int mina_viva; // Determina si la mina está activa o no, si esta no ha sido lanzada o si sigue sin encontrar un barco vale 0 y si ya explotó vale 1
+  int mina_x;    // Ultima posición de la mina en x
+  int mina_y;    // Ultima posición de la mina en y
 
   int barcos_restantes; // Determina cuantos barcos le quedan al jugador
 
@@ -52,8 +54,11 @@ void colocar_barcos_azar(int tablero[][TAB_SIZE]);
 void atacar(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], int *acertado);
 void ataque_azar(int tablero_victima[][TAB_SIZE], int *acertado, int casilla_disparada[1][1]);
 int detectar_victoria(int tablero[][TAB_SIZE]);
+void lanzamiento_mina(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], PLAYER *jugador, int *acertado);
+void mover_mina(PLAYER *jugador, int tablero_victima[][TAB_SIZE], int tablero_visible[][TAB_SIZE], int *acertado);
 
 // General_______________________________________________________________________________________
 int generar_numero(int limite);
 void mostrar_barra_carga(int paso, int total);
 char conv_mayus(char letra);
+void limpiar_buffer();
