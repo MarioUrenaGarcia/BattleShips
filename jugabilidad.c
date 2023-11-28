@@ -24,6 +24,7 @@ void partida_cpu()
     cpu.num = 2;
     cpu.mina = 1;
     cpu.mina_viva = 0;
+    cpu.mina_mapa = 0;
     cpu.barcos_restantes = 5;
 
     // Primero el jugador registra sus datos
@@ -32,6 +33,7 @@ void partida_cpu()
     jugador1.num = 1;
     jugador1.mina = 1;
     jugador1.mina_viva = 0;
+    jugador1.mina_mapa = 0;
     jugador1.barcos_restantes = 5;
 
     // Luego se inicializan los tableros
@@ -67,7 +69,7 @@ void partida_cpu()
         if (turno == 0) // turno de jugador
         {
 
-            if (jugador1.mina == 0 && jugador1.mina_viva == 0)
+            if (jugador1.mina_mapa == 1)
             {
                 mover_mina(&jugador1, cpu.tablero_defensa, jugador1.tablero_ataque, &acertado);
             }
@@ -86,9 +88,7 @@ void partida_cpu()
             }
 
             imprimir_tablero(jugador1.tablero_defensa);
-            printf("Presione enter para continuar");
-            getchar();
-            getchar();
+            presionar_enter();
 
             system("clear");
             printf(YELLOW "\n\n\t\tTurno de %s\n\n" RESET, jugador1.nombre);
@@ -104,9 +104,7 @@ void partida_cpu()
             printf(YELLOW "FASE DE DISPARO\n" RESET);
             atacar(jugador1.tablero_ataque, cpu.tablero_defensa, &acertado);
 
-            printf("Presione enter para continuar:  ");
-            getchar();
-            getchar();
+            presionar_enter();
             turno = 1;
             victoria = detectar_victoria(cpu.tablero_defensa);
             if (victoria == 1)
@@ -702,6 +700,7 @@ void lanzamiento_mina(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB
             jugador->mina = 0;
             jugador->mina_x = x;
             jugador->mina_y = y;
+            jugador->mina_mapa = 1;
         }
     }
 }
@@ -742,7 +741,7 @@ void mover_mina(PLAYER *jugador, int tablero_victima[][TAB_SIZE], int tablero_vi
                 }
                 break;
             case 1: // abajo
-                if (y < TAB_SIZE - 1)
+                if (y < TAB_SIZE)
                 {
                     y++;
                 }
@@ -754,7 +753,7 @@ void mover_mina(PLAYER *jugador, int tablero_victima[][TAB_SIZE], int tablero_vi
                 }
                 break;
             case 3: // derecha
-                if (x < TAB_SIZE - 1)
+                if (x < TAB_SIZE)
                 {
                     x++;
                 }
@@ -762,23 +761,25 @@ void mover_mina(PLAYER *jugador, int tablero_victima[][TAB_SIZE], int tablero_vi
             }
 
             // Verificar que la casilla no haya sido atacada antes y está dentro de los límites del tablero
-            if (x >= 0 && x < TAB_SIZE && y >= 0 && y < TAB_SIZE &&
-                tablero_victima[y][x] != 2 && tablero_victima[y][x] != 3)
+            if (tablero_victima[y][x] != 2 && tablero_victima[y][x] != 3 && x >= 0 && x < TAB_SIZE && y >= 0 && y < TAB_SIZE)
             {
                 valido = 1;
             }
 
             intentos++;
-        } while (!valido && intentos <= 4);
+        } while (valido == 0 && intentos < 50);
 
         // Siguiente etapa
         // Si la mina queda atrapada
-        if (intentos > 4)
+        if (intentos > 50)
         {
             tablero_visible[jugador->mina_y][jugador->mina_x] = 2; // Marcar la última posición de la mina como atacada(rastro)
             tablero_victima[jugador->mina_y][jugador->mina_x] = 2; // Marcar la última posición de la mina como atacada(rastro)
+            tablero_visible[y][x] = 2;                             // Sitio de explosión
+            tablero_victima[y][x] = 2;                             // Sitio de explosión
             jugador->mina_viva = 1;                                // Mata a la mina
-            *acertado = 1;
+            *acertado = 0;
+            jugador->mina_mapa = 0;
         }
         // Si no hay barco
         else if (tablero_victima[y][x] == 0)
@@ -798,6 +799,7 @@ void mover_mina(PLAYER *jugador, int tablero_victima[][TAB_SIZE], int tablero_vi
             tablero_victima[y][x] = 3;                             // Marcar el barco como atacado
             jugador->mina_viva = 1;                                // Mata a la mina
             *acertado = 1;
+            jugador->mina_mapa = 0;
         }
 
         // Actualizar la posición de la mina

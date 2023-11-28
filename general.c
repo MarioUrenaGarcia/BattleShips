@@ -73,9 +73,15 @@ void limpiar_buffer()
     int c; // Variable para almacenar temporalmente cada carácter leído
 
     // Ciclo que continúa hasta que se encuentra un salto de línea o EOF
-    while ((c = getchar()) != '\n' && c != EOF)
+    do
     {
-        // El cuerpo del ciclo está vacío porque simplemente estamos descartando
-        // los caracteres hasta llegar al final de la línea actual de entrada
-    }
+        c = getchar(); // Leer un carácter
+    } while (c != '\n' && c != EOF);
+}
+
+void presionar_enter()
+{
+    printf("\nPresione ENTER para continuar...");
+    limpiar_buffer();
+    getchar();
 }

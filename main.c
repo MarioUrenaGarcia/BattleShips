@@ -72,13 +72,13 @@ int main(int argc, char *argv[])
       jugador.mina_y = 0;
 
       lanzamiento_mina(tablero_visible, tablero_victima, &jugador, &acertado);
-      mover_mina(&jugador, tablero_victima, tablero_visible, &acertado);
+      while (jugador.mina_viva == 0)
+      {
+        mover_mina(&jugador, tablero_victima, tablero_visible, &acertado);
+        imprimir_tablero(tablero_visible);
+        getchar();
+      }
       imprimir_tablero(tablero_visible);
-      getchar();
-      mover_mina(&jugador, tablero_victima, tablero_visible, &acertado);
-      imprimir_tablero(tablero_visible);
-      getchar();
-
       return 0;
     }
     }

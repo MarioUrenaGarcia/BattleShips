@@ -26,7 +26,7 @@ int main_menu()
     printf("\n5. PRUEBAS");
     printf("\n\n");
 
-    scanf("%d", &input);
+    scanf(" %d", &input);
 
     // Si la entrada no es válida volver a preguntar
     while (input < 1 || input > 5)
