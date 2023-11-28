@@ -184,29 +184,40 @@ void colocar_barcos(int tablero[][TAB_SIZE], char nombre[])
 
         // Pedir coordenada Y
         printf("Introduzca la coordenada y: ");
-        getchar();
-        scanf("%c", &input);
+        scanf(" %c", &input);
         y = input - 'A'; // Convertir letra a número
 
         // Validar existencia de coordenada Y
         while (y > TAB_SIZE - 1 || y < 0)
         {
             printf("\nCoordenada no válida, intente de nuevo: ");
-            getchar();
-            scanf("%c", &input);
+            scanf(" %c", &input);
             y = input - 'A';
         }
 
         // Pedir coordenada X
         printf("\nIntroduzca la coordenada x: ");
-        scanf("%d", &x);
+        scanf(" %d", &x);
         x = x - 1;
 
         // Validar existencia de coordenada X
         while (x > TAB_SIZE - 1 || x < 0)
         {
             printf("\nCoordenada no válida, intente de nuevo: ");
-            scanf("%d", &x);
+            scanf(" %d", &x);
+            x = x - 1;
+        }
+
+        // validar que no cruce con otro barco
+        while (tablero[y][x] == 1)
+        {
+            printf("\nCoordenadas no válida, intente de nuevo: ");
+            printf("Introduzca la coordenada y: ");
+            scanf(" %c", &input);
+            y = input - 'A'; // Convertir letra a número
+
+            printf("\nIntroduzca la coordenada x: ");
+            scanf(" %d", &x);
             x = x - 1;
         }
 
@@ -215,8 +226,7 @@ void colocar_barcos(int tablero[][TAB_SIZE], char nombre[])
         {
             direccion_valida = 1; // Asumimos que la dirección es válida inicialmente
             printf("\nIntroduzca la dirección del barco (A, B, D, I): ");
-            getchar();
-            scanf("%c", &direccion);
+            scanf(" %c", &direccion);
 
             if ((direccion == 'A' || direccion == 'a') && y - barcos[i] + 1 < 0)
             {
