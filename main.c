@@ -60,18 +60,26 @@ int main(int argc, char *argv[])
     }
     case 5: // PRUEBAS
     {
-      PLAYER cpu; // Datos de CPU
+      // Código de prueba para verificar el funcionamiento de la función mover_mina
+      int tablero_victima[TAB_SIZE][TAB_SIZE] = {0};
+      int tablero_visible[TAB_SIZE][TAB_SIZE] = {0};
+      int acertado = 0;
 
-      // Inicializar datos de CPU
-      strcpy(cpu.nombre, "KAREN");
-      cpu.num = 2;
-      cpu.mina = 1;
-      cpu.mina_viva = 0;
-      cpu.barcos_restantes = 5;
+      PLAYER jugador;
+      jugador.mina = 1;
+      jugador.mina_viva = 0;
+      jugador.mina_x = 0;
+      jugador.mina_y = 0;
 
-      printf(YELLOW "\t\tPRUEBA\n" RESET);
-      return_to_menu(&seleccion); // Función que regresa al menú principal
-      break;
+      lanzamiento_mina(tablero_visible, tablero_victima, &jugador, &acertado);
+      mover_mina(&jugador, tablero_victima, tablero_visible, &acertado);
+      imprimir_tablero(tablero_visible);
+      getchar();
+      mover_mina(&jugador, tablero_victima, tablero_visible, &acertado);
+      imprimir_tablero(tablero_visible);
+      getchar();
+
+      return 0;
     }
     }
   } while (1);
