@@ -127,6 +127,8 @@ void partida_cpu()
                 victoria = 2; // Determina que gano el CPU
             }
         }
+
+        // Guardar estado de partida
     }
 
     // Fin de partida

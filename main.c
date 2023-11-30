@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
   // Procesos
 
   seleccion = main_menu();
+
   do
   {
     switch (seleccion)
