@@ -731,13 +731,18 @@ void mover_mina(PLAYER *jugador, int tablero_victima[][TAB_SIZE], int tablero_vi
     int valido = 0;
     int direccion; // Variable para almacenar la dirección de ataque
     int intentos = 0;
+    int direcciones_invalidas[4] = {-1, -1, -1, -1}; // Arreglo para almacenar las direcciones inválidas
 
     if (jugador->mina_viva == 0 && jugador->mina == 0)
     {
         do
         {
             // Seleccionar una dirección aleatoria: 0 = arriba, 1 = abajo, 2 = izquierda, 3 = derecha
-            direccion = generar_numero(4);
+            // Generar numero que no aparezca en el arreglo de direcciones_invalidas
+            do
+            {
+                direccion = generar_numero(4);
+            } while (direcciones_invalidas[direccion] == direccion);
 
             // Establecer las coordenadas basadas en la dirección seleccionada
             x = jugador->mina_x;
@@ -773,47 +778,61 @@ void mover_mina(PLAYER *jugador, int tablero_victima[][TAB_SIZE], int tablero_vi
             }
 
             // Verificar que la casilla no haya sido atacada antes y está dentro de los límites del tablero
-            if (tablero_victima[y][x] != 2 && tablero_victima[y][x] != 3 && x >= 0 && x < TAB_SIZE && y >= 0 && y < TAB_SIZE)
+            if (x >= 0 && x < TAB_SIZE && y >= 0 && y < TAB_SIZE)
             {
-                valido = 1;
+                if (tablero_victima[y][x] != 2 && tablero_victima[y][x] != 3) // Avanzar
+                {
+                    valido = 1;
+                }
+                else if (tablero_victima[y][x] == 1 && x >= 0 && x < TAB_SIZE && y >= 0 && y < TAB_SIZE) // Explotar con barco
+                {
+                    valido = 2;
+                }
+                // Si todos los bordes superior, inferior y los lados son 2, entonces la mina está atrapada
+                else if (tablero_victima[y - 1][x] == 2 && tablero_victima[y + 1][x] == 2 && tablero_victima[y][x - 1] == 2 && tablero_victima[y][x + 1] == 2)
+                {
+                    valido = 3;
+                }
             }
 
-            intentos++;
-        } while (valido == 0 && intentos < 50);
+            // Si no es válido, almacenar esa dirección como invalida para que no se repita en el siguiente bucle
+            if (valido == 0)
+            {
+                direcciones_invalidas[direccion] = direccion;
+            }
 
-        // Siguiente etapa
-        // Si la mina queda atrapada
-        if (intentos > 50)
+        } while (valido == 0);
+
+        // Dejar rastro
+        tablero_victima[jugador->mina_y][jugador->mina_x] = 2;
+        tablero_visible[jugador->mina_y][jugador->mina_x] = 2;
+
+        // Dependiendo de la salida de los bucles, se mueve la mina o explota.
+        // Mina Avanza
+        if (valido == 1)
         {
-            tablero_visible[jugador->mina_y][jugador->mina_x] = 2; // Marcar la última posición de la mina como atacada(rastro)
-            tablero_victima[jugador->mina_y][jugador->mina_x] = 2; // Marcar la última posición de la mina como atacada(rastro)
-            tablero_visible[y][x] = 2;                             // Sitio de explosión
-            tablero_victima[y][x] = 2;                             // Sitio de explosión
-            jugador->mina_viva = 1;                                // Mata a la mina
-            *acertado = 0;
-            jugador->mina_mapa = 0;
-        }
-        // Si no hay barco
-        else if (tablero_victima[y][x] == 0)
-        {
-            tablero_visible[jugador->mina_y][jugador->mina_x] = 2; // Marcar la última posición de la mina como atacada(rastro)
-            tablero_victima[jugador->mina_y][jugador->mina_x] = 2; // Marcar la última posición de la mina como atacada(rastro)
-            tablero_visible[y][x] = 4;                             // Mina activa en la nueva posición
-            tablero_victima[y][x] = 4;                             // Mina activa en la nueva posición
+            // Mover la mina
+            tablero_victima[y][x] = 4;
+            tablero_visible[y][x] = 4;
             *acertado = 0;
         }
-        // Si hay barco
-        else if (tablero_victima[y][x] == 1)
+        else if (valido == 2) // Explotar con barco
         {
-            tablero_visible[jugador->mina_y][jugador->mina_x] = 2; // Marcar la última posición de la mina como atacada(rastro)
-            tablero_victima[jugador->mina_y][jugador->mina_x] = 2; // Marcar la última posición de la mina como atacada(rastro)
-            tablero_visible[y][x] = 3;                             // Marcar la casilla como atacada por mina
-            tablero_victima[y][x] = 3;                             // Marcar el barco como atacado
-            jugador->mina_viva = 1;                                // Mata a la mina
+            // Explotar la mina
+            tablero_victima[y][x] = 3;
+            tablero_visible[y][x] = 3;
             *acertado = 1;
-            jugador->mina_mapa = 0;
         }
-
+        else if (valido == 3) // Mina atrapada
+        {
+            // Marcar explosión
+            tablero_victima[y][x] = 2;
+            tablero_visible[y][x] = 2;
+            // Desactivar la mina
+            jugador->mina_mapa = 0;
+            jugador->mina_viva = 1;
+            jugador->mina = 0;
+        }
         // Actualizar la posición de la mina
         jugador->mina_x = x;
         jugador->mina_y = y;

@@ -77,9 +77,9 @@ int main(int argc, char *argv[])
       {
         mover_mina(&jugador, tablero_victima, tablero_visible, &acertado);
         imprimir_tablero(tablero_visible);
-        getchar();
       }
       imprimir_tablero(tablero_visible);
+      return_to_menu(&seleccion); // Función que regresa al menú principal
       return 0;
     }
     }
