@@ -1,5 +1,5 @@
-exe: main.o interfaz.o jugabilidad.o general.o
-	gcc -o battleships.out main.o interfaz.o jugabilidad.o general.o
+exe: main.o interfaz.o jugabilidad.o general.o cargar.o
+	gcc -o battleships.out main.o interfaz.o jugabilidad.o general.o cargar.o
 	clear
 	./battleships.out
 
@@ -14,6 +14,9 @@ jugabilidad.o: jugabilidad.c
 
 general.o: general.c
 	gcc -c general.c
+
+cargar.o: cargar.c
+	gcc -c cargar.c
 
 clean:
 	rm *.o
