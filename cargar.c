@@ -18,7 +18,7 @@ typedef struct {
 } PLAYER;
 
 // Función para guardar la partida en un archivo de texto
-void guardar_partida(const char* nombreArchivo, const PLAYER* jugador) {
+void guardar_partida(char* nombreArchivo, PLAYER* jugador) {
     // Abre el archivo en modo de escritura de texto ("w")
     FILE* archivo = fopen(nombreArchivo, "w");
 
@@ -59,7 +59,7 @@ void guardar_partida(const char* nombreArchivo, const PLAYER* jugador) {
 }
 
 // Función para cargar la partida desde un archivo de texto
-void cargar_partida(const char* nombreArchivo, PLAYER* jugador) {
+void cargar_partida(char* nombreArchivo, PLAYER* jugador) {
     // Abre el archivo en modo de lectura de texto ("r")
     FILE* archivo = fopen(nombreArchivo, "r");
 
