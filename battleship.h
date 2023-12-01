@@ -19,8 +19,8 @@ typedef struct
 {
   // Datos de identidad
   char nombre[264];                        // Nombre del jugador
-  int tablero_defensa[TAB_SIZE][TAB_SIZE]; // Tablero de defensa del jugador, osea donde tiene sus barcos, y donde verá donde le han atacado
-  int tablero_ataque[TAB_SIZE][TAB_SIZE];  // Tablero de ataque del jugador, osea donde elegira donde atacar, y donde verá donde ha atacado
+  int tablero_defensa[TAB_SIZE][TAB_SIZE]; // Tablero de defensa del jugador, o sea donde tiene sus barcos, y donde verá donde le han atacado
+  int tablero_ataque[TAB_SIZE][TAB_SIZE];  // Tablero de ataque del jugador, o sea donde elegira donde atacar, y donde verá donde ha atacado
   int num;                                 // Número de jugador, 1 o 2
 
   // Datos de juego
