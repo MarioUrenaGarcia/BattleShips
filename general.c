@@ -12,10 +12,18 @@
 int generar_numero(int limite)
 {
     int semilla;
+    int suma;
     int numero;
 
     srand(time(NULL));
+    semilla = rand();
 
+    srand(time(NULL));
+    suma = rand();
+
+    semilla = semilla + suma;
+
+    srand(semilla);
     numero = rand() % limite;
 
     return numero;

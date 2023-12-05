@@ -63,3 +63,4 @@ int generar_numero(int limite);
 void mostrar_barra_carga(int paso, int total);
 char conv_mayus(char letra);
 void presionar_enter();
+void limpiar_buffer();
