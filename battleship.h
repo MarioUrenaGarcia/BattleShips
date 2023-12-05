@@ -64,3 +64,6 @@ void mostrar_barra_carga(int paso, int total);
 char conv_mayus(char letra);
 void presionar_enter();
 void limpiar_buffer();
+
+// Cargar y guardar_______________________________________________________________________________________
+void guardar_partida(PLAYER *jugador);

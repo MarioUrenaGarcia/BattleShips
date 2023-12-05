@@ -1,13 +1,18 @@
 #include <stdio.h>
 #include <string.h>
+#include "battleship.h"
 
 // Función para guardar la partida en un archivo de texto
-void guardar_partida(char* nombreArchivo, PLAYER* jugador) {
+void guardar_partida(PLAYER *jugador)
+{
+    char nombreArchivo[256] = "save.txt";
+
     // Abre el archivo en modo de escritura de texto ("w")
-    FILE* archivo = fopen(nombreArchivo, "w");
+    FILE *archivo = fopen(nombreArchivo, "w");
 
     // Verifica si el archivo se abrió correctamente
-    if (archivo != NULL) {
+    if (archivo != NULL)
+    {
         // Escribe cada campo de la estructura en una línea separada
         fprintf(archivo, "%s\n", jugador->nombre);
         fprintf(archivo, "%d\n", jugador->num);
@@ -19,16 +24,20 @@ void guardar_partida(char* nombreArchivo, PLAYER* jugador) {
         fprintf(archivo, "%d\n", jugador->barcos_restantes);
 
         // Escribe el tablero de defensa en líneas separadas
-        for (int i = 0; i < TAB_SIZE; i++) {
-            for (int j = 0; j < TAB_SIZE; j++) {
+        for (int i = 0; i < TAB_SIZE; i++)
+        {
+            for (int j = 0; j < TAB_SIZE; j++)
+            {
                 fprintf(archivo, "%d ", jugador->tablero_defensa[i][j]);
             }
             fprintf(archivo, "\n");
         }
 
         // Escribe el tablero de ataque en líneas separadas
-        for (int i = 0; i < TAB_SIZE; i++) {
-            for (int j = 0; j < TAB_SIZE; j++) {
+        for (int i = 0; i < TAB_SIZE; i++)
+        {
+            for (int j = 0; j < TAB_SIZE; j++)
+            {
                 fprintf(archivo, "%d ", jugador->tablero_ataque[i][j]);
             }
             fprintf(archivo, "\n");
@@ -36,19 +45,24 @@ void guardar_partida(char* nombreArchivo, PLAYER* jugador) {
 
         // Cierra el archivo después de la escritura
         fclose(archivo);
-    } else {
+    }
+    else
+    {
         // Maneja el error si no se puede abrir el archivo
         perror("Error al abrir el archivo para escritura");
     }
 }
 
 // Función para cargar la partida desde un archivo de texto
-void cargar_partida(char* nombreArchivo, PLAYER* jugador) {
+void cargar_partida(PLAYER *jugador)
+{
+    char nombreArchivo[256] = "save.txt";
     // Abre el archivo en modo de lectura de texto ("r")
-    FILE* archivo = fopen(nombreArchivo, "r");
+    FILE *archivo = fopen(nombreArchivo, "r");
 
     // Verifica si el archivo se abrió correctamente
-    if (archivo != NULL) {
+    if (archivo != NULL)
+    {
         // Lee cada campo de la estructura desde una línea separada
         fscanf(archivo, "%s", jugador->nombre);
         fscanf(archivo, "%d", &jugador->num);
@@ -60,22 +74,28 @@ void cargar_partida(char* nombreArchivo, PLAYER* jugador) {
         fscanf(archivo, "%d", &jugador->barcos_restantes);
 
         // Lee el tablero de defensa desde líneas separadas
-        for (int i = 0; i < TAB_SIZE; i++) {
-            for (int j = 0; j < TAB_SIZE; j++) {
+        for (int i = 0; i < TAB_SIZE; i++)
+        {
+            for (int j = 0; j < TAB_SIZE; j++)
+            {
                 fscanf(archivo, "%d", &jugador->tablero_defensa[i][j]);
             }
         }
 
         // Lee el tablero de ataque desde líneas separadas
-        for (int i = 0; i < TAB_SIZE; i++) {
-            for (int j = 0; j < TAB_SIZE; j++) {
+        for (int i = 0; i < TAB_SIZE; i++)
+        {
+            for (int j = 0; j < TAB_SIZE; j++)
+            {
                 fscanf(archivo, "%d", &jugador->tablero_ataque[i][j]);
             }
         }
 
         // Cierra el archivo después de la lectura
         fclose(archivo);
-    } else {
+    }
+    else
+    {
         // Maneja el error si no se puede abrir el archivo
         perror("Error al abrir el archivo para lectura");
     }

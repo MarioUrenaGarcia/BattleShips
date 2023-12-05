@@ -129,7 +129,7 @@ void partida_cpu()
         }
 
         // Guardar estado de partida
-    }
+        }
 
     // Fin de partida
     if (victoria == 1)
