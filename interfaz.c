@@ -21,7 +21,7 @@ int main_menu()
 
     printf("\n1. Jugar contra Computadora");
     printf("\n2. Jugar contra Jugador");
-    printf("\n3. Jugar contra Cargar Partida");
+    printf("\n3. Cargar Partida");
     printf("\n4. Salir del Juego");
     printf("\n5. PRUEBAS");
     printf("\n\n");

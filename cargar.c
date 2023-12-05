@@ -3,10 +3,9 @@
 #include "battleship.h"
 
 // Función para guardar la partida en un archivo de texto
-void guardar_partida(PLAYER *jugador)
+void guardar_partida(PLAYER jugador)
 {
     char nombreArchivo[256] = "save.txt";
-
     // Abre el archivo en modo de escritura de texto ("w")
     FILE *archivo = fopen(nombreArchivo, "w");
 
@@ -14,21 +13,21 @@ void guardar_partida(PLAYER *jugador)
     if (archivo != NULL)
     {
         // Escribe cada campo de la estructura en una línea separada
-        fprintf(archivo, "%s\n", jugador->nombre);
-        fprintf(archivo, "%d\n", jugador->num);
-        fprintf(archivo, "%d\n", jugador->mina);
-        fprintf(archivo, "%d\n", jugador->mina_viva);
-        fprintf(archivo, "%d\n", jugador->mina_x);
-        fprintf(archivo, "%d\n", jugador->mina_y);
-        fprintf(archivo, "%d\n", jugador->mina_mapa);
-        fprintf(archivo, "%d\n", jugador->barcos_restantes);
+        fprintf(archivo, "%s\n", jugador.nombre);
+        fprintf(archivo, "%d\n", jugador.num);
+        fprintf(archivo, "%d\n", jugador.mina);
+        fprintf(archivo, "%d\n", jugador.mina_viva);
+        fprintf(archivo, "%d\n", jugador.mina_x);
+        fprintf(archivo, "%d\n", jugador.mina_y);
+        fprintf(archivo, "%d\n", jugador.mina_mapa);
+        fprintf(archivo, "%d\n", jugador.barcos_restantes);
 
         // Escribe el tablero de defensa en líneas separadas
         for (int i = 0; i < TAB_SIZE; i++)
         {
             for (int j = 0; j < TAB_SIZE; j++)
             {
-                fprintf(archivo, "%d ", jugador->tablero_defensa[i][j]);
+                fprintf(archivo, "%d ", jugador.tablero_defensa[i][j]);
             }
             fprintf(archivo, "\n");
         }
@@ -38,7 +37,7 @@ void guardar_partida(PLAYER *jugador)
         {
             for (int j = 0; j < TAB_SIZE; j++)
             {
-                fprintf(archivo, "%d ", jugador->tablero_ataque[i][j]);
+                fprintf(archivo, "%d ", jugador.tablero_ataque[i][j]);
             }
             fprintf(archivo, "\n");
         }

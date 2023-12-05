@@ -3,7 +3,7 @@
 #include <string.h>
 #include "battleship.h"
 
-//Pruebaa
+// Pruebaa
 
 /*
 
@@ -58,7 +58,6 @@ int main(int argc, char *argv[])
     }
     case 3: // Cargar Partida
     {
-      printf(YELLOW "\n\n\t\tCargar Partida\n\n" RESET);
       return_to_menu(&seleccion); // Función que regresa al menú principal
       break;
     }
