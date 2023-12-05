@@ -96,22 +96,3 @@ void cargar_partida(char* nombreArchivo, PLAYER* jugador) {
         perror("Error al abrir el archivo para lectura");
     }
 }
-
-int main() {
-    // Declaración de la estructura que representa a un jugador
-    PLAYER jugador;
-
-    // Inicializa la estructura del jugador y realiza operaciones del juego
-    // (LOGICA DEL JUEGO)
-    // Guardar partida llamando a la función "guardar_partida"
-    guardar_partida("save.txt", &jugador);
-
-    // Cargar partida llamando a la función "cargar_partida"
-    cargar_partida("save.txt", &jugador);
-
-    // Continuar con el juego cargado
-    // ...
-
-    // Devuelve 0 para indicar una ejecución exitosa
-    return 0;
-}
