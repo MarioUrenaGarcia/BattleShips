@@ -86,7 +86,6 @@ int main(int argc, char *argv[])
       lanzamiento_mina(tablero_visible, tablero_victima, &jugador, &acertado);
       while (jugador.mina_viva == 0)
       {
-        presionar_enter();
         mover_mina(&jugador, tablero_victima, tablero_visible, &acertado);
         imprimir_tablero(tablero_visible);
       }

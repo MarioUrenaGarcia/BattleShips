@@ -18,7 +18,12 @@ int generar_numero(int limite)
     srand(time(NULL));
     semilla = rand();
 
-    srand(time(NULL));
+    srand(time(NULL) ^ time(NULL) + 4);
+    suma = rand();
+
+    semilla = semilla + suma;
+
+    srand(time(NULL) ^ semilla);
     suma = rand();
 
     semilla = semilla + suma;
