@@ -1,21 +1,5 @@
-
 #include <stdio.h>
 #include <string.h>
-
-#define TAB_SIZE 10
-
-typedef struct {
-    char nombre[264];
-    int tablero_defensa[TAB_SIZE][TAB_SIZE];
-    int tablero_ataque[TAB_SIZE][TAB_SIZE];
-    int num;
-    int mina;
-    int mina_viva;
-    int mina_x;
-    int mina_y;
-    int mina_mapa;
-    int barcos_restantes;
-} PLAYER;
 
 // Función para guardar la partida en un archivo de texto
 void guardar_partida(char* nombreArchivo, PLAYER* jugador) {
