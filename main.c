@@ -22,6 +22,16 @@ int main(int argc, char *argv[])
 
   // Variables
   int tablero[TAB_SIZE][TAB_SIZE] = {0};
+  int tablero_prueba[TAB_SIZE][TAB_SIZE] = {{0, 0, 0, 0, 0, 0, 1, 1, 0, 0},
+                                            {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+                                            {0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
+                                            {0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
+                                            {0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
+                                            {0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
+                                            {1, 1, 0, 0, 0, 0, 0, 0, 1, 0},
+                                            {0, 0, 0, 0, 0, 1, 1, 1, 1, 0},
+                                            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
   int seleccion = 0;
   // Procesos
 
@@ -63,6 +73,7 @@ int main(int argc, char *argv[])
     {
       // Código de prueba para verificar el funcionamiento de la función mover_mina
       int tablero_victima[TAB_SIZE][TAB_SIZE] = {0};
+      ;
       int tablero_visible[TAB_SIZE][TAB_SIZE] = {0};
       int acertado = 0;
 
@@ -75,10 +86,10 @@ int main(int argc, char *argv[])
       lanzamiento_mina(tablero_visible, tablero_victima, &jugador, &acertado);
       while (jugador.mina_viva == 0)
       {
+        presionar_enter();
         mover_mina(&jugador, tablero_victima, tablero_visible, &acertado);
         imprimir_tablero(tablero_visible);
       }
-      imprimir_tablero(tablero_visible);
       return_to_menu(&seleccion); // Función que regresa al menú principal
       return 0;
     }
