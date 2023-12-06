@@ -16,7 +16,8 @@ void partida_cpu()
     int turno = 2;    // Para determinar de quien es el turno
     int azar = 0;
     int acertado = 0;
-    int casilla_disparada[1][1] = {0}; // Almacena la casilla en donde CPU disparo en la ronda anterior.
+    int acertado_cpu = 0;
+    int casilla_disparada[2] = {0}; // Almacena la casilla en donde CPU disparo en la ronda anterior.
     // Procesos
 
     // Inicializar datos de CPU
@@ -117,7 +118,7 @@ void partida_cpu()
             system("clear");
             printf(YELLOW "\n\n\t\tTurno de %s\n\n" RESET, cpu.nombre);
             mostrar_barra_carga(0, 100);
-            ataque_azar(jugador1.tablero_defensa, &acertado, casilla_disparada);
+            ataque_azar(jugador1.tablero_defensa, &acertado, &acertado_cpu, casilla_disparada);
             mostrar_barra_carga(100, 100);
             system("clear");
             turno = 0;
@@ -520,13 +521,13 @@ void atacar(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], in
     @param casilla_disparada: En caso de que en el tiro anterior le haya dado a un barco, se disparará en un rango adyacente a la casilla anteriormente disparada.
     @param acertado: Determina si el jugador ha acertado o no.
 */
-void ataque_azar(int tablero_victima[][TAB_SIZE], int *acertado, int casilla_disparada[1][1])
+void ataque_azar(int tablero_victima[][TAB_SIZE], int *acertado, int *acertado_cpu, int casilla_disparada[2])
 {
     int x, y;
     int valido = 0;
     int direccion; // Variable para almacenar la dirección de ataque
 
-    if (*acertado == 1)
+    if (*acertado_cpu == 1)
     {
         do
         {
@@ -534,8 +535,8 @@ void ataque_azar(int tablero_victima[][TAB_SIZE], int *acertado, int casilla_dis
             direccion = generar_numero(4);
 
             // Establecer las coordenadas basadas en la dirección seleccionada
-            x = casilla_disparada[0][0];
-            y = casilla_disparada[0][0];
+            x = casilla_disparada[1];
+            y = casilla_disparada[0];
 
             if (direccion == 0 && y > 0)
                 y--;
@@ -568,15 +569,18 @@ void ataque_azar(int tablero_victima[][TAB_SIZE], int *acertado, int casilla_dis
     {
         tablero_victima[y][x] = 3;
         *acertado = 1;
+        *acertado_cpu = 1;
     }
     else if (tablero_victima[y][x] == 0)
     {
         tablero_victima[y][x] = 2;
         *acertado = 0;
+        *acertado_cpu = 0;
     }
 
     // Actualizar la última casilla disparada
-    casilla_disparada[0][0] = y, x;
+    casilla_disparada[0] = y;
+    casilla_disparada[1] = x;
 }
 
 /*

@@ -63,7 +63,7 @@ void cargar_partida(PLAYER *jugador)
     if (archivo != NULL)
     {
         // Lee cada campo de la estructura desde una línea separada
-        fscanf(archivo, "%s", jugador->nombre);
+        fscanf(archivo, "%s", &jugador->nombre);
         fscanf(archivo, "%d", &jugador->num);
         fscanf(archivo, "%d", &jugador->mina);
         fscanf(archivo, "%d", &jugador->mina_viva);
