@@ -53,6 +53,7 @@ int main(int argc, char *argv[])
     case 2: // Jugar contra Jugador
     {
       printf(YELLOW "\n\n\t\tJugar contra Jugador\n\n" RESET);
+      partida_jugador();
       return_to_menu(&seleccion); // Función que regresa al menú principal
       break;
     }
@@ -73,10 +74,30 @@ int main(int argc, char *argv[])
     case 5: // PRUEBAS
     {
       // Código de prueba para verificar el funcionamiento de la función mover_mina
-      int tablero_victima[TAB_SIZE][TAB_SIZE] = {0};
-      ;
-      int tablero_visible[TAB_SIZE][TAB_SIZE] = {0};
+      int tablero_victima[TAB_SIZE][TAB_SIZE] = {{0, 0, 0, 0, 0, 0, 1, 1, 0, 0},
+                                                 {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+                                                 {0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
+                                                 {0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
+                                                 {0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
+                                                 {0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
+                                                 {1, 1, 0, 0, 0, 0, 0, 0, 1, 0},
+                                                 {0, 0, 0, 0, 0, 1, 1, 1, 1, 0},
+                                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+      int tablero_visible[TAB_SIZE][TAB_SIZE] = {{0, 0, 0, 0, 0, 0, 1, 1, 0, 0},
+                                                 {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+                                                 {0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
+                                                 {0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
+                                                 {0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
+                                                 {0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
+                                                 {1, 1, 0, 0, 0, 0, 0, 0, 1, 0},
+                                                 {0, 0, 0, 0, 0, 1, 1, 1, 1, 0},
+                                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
       int acertado = 0;
+      int acertado_cpu = 0;
+      int casilla_disparada[2] = {0};
+      int victoria = 0;
 
       PLAYER jugador;
       jugador.mina = 1;
@@ -84,11 +105,12 @@ int main(int argc, char *argv[])
       jugador.mina_x = 0;
       jugador.mina_y = 0;
 
-      lanzamiento_mina(tablero_visible, tablero_victima, &jugador, &acertado);
-      while (jugador.mina_viva == 0)
+      while (victoria == 0)
       {
-        mover_mina(&jugador, tablero_victima, tablero_visible, &acertado);
+        presionar_enter();
+        ataque_azar(tablero_visible, &acertado, &acertado_cpu, casilla_disparada);
         imprimir_tablero(tablero_visible);
+        victoria = detectar_victoria(tablero_visible);
       }
       return_to_menu(&seleccion); // Función que regresa al menú principal
       return 0;
