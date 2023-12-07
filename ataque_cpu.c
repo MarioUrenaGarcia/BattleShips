@@ -1,11 +1,7 @@
 /*
-
 El puntero de dirección (*direccion_cpu) se utiliza para recordar la última dirección en la que la CPU realizó un disparo exitoso. Esta información se almacena para que en el siguiente turno, la CPU pueda realizar disparos adyacentes a la posición anterior, imitando un comportamiento más inteligente.
-
 En la parte del código donde la CPU ha acertado en el último disparo, se guarda la dirección seleccionada en la variable "direccion" en el puntero "*direccion_cpu". Luego, en el siguiente turno, cuando la CPU debe elegir una nueva dirección, se toma en cuenta esta última dirección exitosa. Esto significa que la CPU tratará de disparar en una casilla adyacente a la última casilla exitosa, replicando un comportamiento más estratégico.
-
 Esencialmente, el puntero de dirección ayuda a la CPU a recordar y utilizar información sobre su comportamiento pasado para mejorar su lógica de ataque. Si la CPU ha acertado recientemente, intentará disparar en una dirección cercana a la última posición exitosa.
-
 */
 
 void ataque_azar(int tablero_victima[][TAB_SIZE], int *acertado, int *acertado_cpu, int casilla_disparada[2], int *direccion_cpu)
