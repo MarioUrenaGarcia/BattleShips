@@ -192,3 +192,14 @@ void imprimir_tablero(int tablero[][TAB_SIZE])
 
     printf("\n\n");
 }
+
+/**
+ * Que hace: Pantalla para que el usuario no vea el tablero del otro jugador.
+ */
+void pantalla_cambio()
+{
+    system("clear");
+    printf("\n\n\t Pasale la computadora a tu oponente, no seas tramposo\n\n");
+
+    presionar_enter();
+}

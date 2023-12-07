@@ -122,6 +122,11 @@ void partida_jugador()
             {
                 victoria = 1; // Determina que gano el jugador
             }
+
+            if (victoria == 0)
+            {
+                pantalla_cambio();
+            }
         }
         else if (turno == 1) // turno de jugador 2
         {
@@ -167,6 +172,11 @@ void partida_jugador()
             if (victoria == 1)
             {
                 victoria = 2; // Determina que gano el jugador
+            }
+
+            if (victoria == 0)
+            {
+                pantalla_cambio();
             }
         }
 

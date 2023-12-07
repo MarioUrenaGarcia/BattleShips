@@ -46,7 +46,7 @@ typedef struct
 int main_menu();                                // Menú principal
 void imprimir_tablero(int tablero[][TAB_SIZE]); // Imprime el tablero de juego, el tablero de entrada depende de la situación.
 void return_to_menu(int *seleccion);            // Regresa al menú principal
-
+void pantalla_cambio();                         // Pantalla de cambio de jugador
 // Jugabilidad____________________________________________________________________________________
 void partida_cpu();
 void inicializar_tablero(int tablero[][TAB_SIZE]);
