@@ -3,7 +3,7 @@
 #include "battleship.h"
 
 // Función para guardar la partida en un archivo de texto
-void guardar_partida(PLAYER jugador)
+void guardar_partida(PLAYER jugador, PLAYER jugador2, int tipo_partida)
 {
     char nombreArchivo[256] = "save.txt";
     // Abre el archivo en modo de escritura de texto ("w")
@@ -20,7 +20,6 @@ void guardar_partida(PLAYER jugador)
         fprintf(archivo, "%d\n", jugador.mina_x);
         fprintf(archivo, "%d\n", jugador.mina_y);
         fprintf(archivo, "%d\n", jugador.mina_mapa);
-        fprintf(archivo, "%d\n", jugador.barcos_restantes);
 
         // Escribe el tablero de defensa en líneas separadas
         for (int i = 0; i < TAB_SIZE; i++)
@@ -70,7 +69,6 @@ void cargar_partida(PLAYER *jugador)
         fscanf(archivo, "%d", &jugador->mina_x);
         fscanf(archivo, "%d", &jugador->mina_y);
         fscanf(archivo, "%d", &jugador->mina_mapa);
-        fscanf(archivo, "%d", &jugador->barcos_restantes);
 
         // Lee el tablero de defensa desde líneas separadas
         for (int i = 0; i < TAB_SIZE; i++)

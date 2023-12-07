@@ -37,8 +37,6 @@ typedef struct
   int mina_y;    // Ultima posición de la mina en y
   int mina_mapa; // Determina si la mina está en el mapa, 0 no 1 si
 
-  int barcos_restantes; // Determina cuantos barcos le quedan al jugador
-
 } PLAYER; // Estructura que representa a un jugador
 
 // Interfaz_______________________________________________________________________________________
@@ -66,4 +64,4 @@ void presionar_enter();
 void limpiar_buffer();
 
 // Cargar y guardar_______________________________________________________________________________________
-void guardar_partida(PLAYER jugador);
+void guardar_partida(PLAYER jugador1, PLAYER jugador2, int tipo_partida);

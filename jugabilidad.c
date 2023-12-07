@@ -6,7 +6,6 @@
 /*
     Que hace: Bucle de partida contra computadora, se encarga de que los jugadores se turnen para atacar y de que se acabe la partida cuando uno de los jugadores se quede sin barcos.
 */
-
 void partida_jugador()
 {
     // Variables
@@ -18,6 +17,7 @@ void partida_jugador()
     int acertado = 0;
     int acertado_cpu = 0;
     int casilla_disparada[2] = {0}; // Almacena la casilla en donde CPU disparo en la ronda anterior.
+    int tipo_partida = 1;           // Representa que es una partida CPU, para la función guardar partida.
     // Procesos
 
     // Primero el jugador1 registra sus datos
@@ -27,7 +27,6 @@ void partida_jugador()
     jugador1.mina = 1;
     jugador1.mina_viva = 0;
     jugador1.mina_mapa = 0;
-    jugador1.barcos_restantes = 5;
 
     // Luego el jugador 2 registra sus datos
     printf("JUGADOR 2 Introzca su nombre:     ");
@@ -36,7 +35,6 @@ void partida_jugador()
     jugador2.mina = 1;
     jugador2.mina_viva = 0;
     jugador2.mina_mapa = 0;
-    jugador2.barcos_restantes = 5;
 
     // Luego se inicializan los tableros
     inicializar_tablero(jugador1.tablero_defensa);
@@ -181,7 +179,7 @@ void partida_jugador()
         }
 
         // Guardar estado de partida
-        guardar_partida(jugador1);
+        guardar_partida(jugador1, jugador2, tipo_partida);
     }
 
     // Fin de partida
@@ -208,7 +206,6 @@ void partida_jugador()
 /*
     Que hace: Bucle de partida contra computadora, se encarga de que los jugadores se turnen para atacar y de que se acabe la partida cuando uno de los jugadores se quede sin barcos.
 */
-
 void partida_cpu()
 {
     // Variables
@@ -220,6 +217,7 @@ void partida_cpu()
     int acertado = 0;
     int acertado_cpu = 0;
     int casilla_disparada[2] = {0}; // Almacena la casilla en donde CPU disparo en la ronda anterior.
+    int tipo_partida = 0;           // Representa que es una partida CPU, para la función guardar partida.
     // Procesos
 
     // Inicializar datos de CPU
@@ -228,7 +226,6 @@ void partida_cpu()
     cpu.mina = 1;
     cpu.mina_viva = 0;
     cpu.mina_mapa = 0;
-    cpu.barcos_restantes = 5;
 
     // Primero el jugador registra sus datos
     printf("Introzca su nombre:     ");
@@ -237,7 +234,6 @@ void partida_cpu()
     jugador1.mina = 1;
     jugador1.mina_viva = 0;
     jugador1.mina_mapa = 0;
-    jugador1.barcos_restantes = 5;
 
     // Luego se inicializan los tableros
     inicializar_tablero(jugador1.tablero_defensa);
@@ -332,7 +328,7 @@ void partida_cpu()
         }
 
         // Guardar estado de partida
-        guardar_partida(jugador1);
+        guardar_partida(jugador1, cpu, tipo_partida);
     }
 
     // Fin de partida
