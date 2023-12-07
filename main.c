@@ -42,7 +42,8 @@ int main(int argc, char *argv[])
     }
     else if (strcmp(argv[1], "-1p") == 0)
     {
-      seleccion = 1;
+      partida_cpu_argv(argv);
+      return_to_menu(&seleccion); // Función que regresa al menú principal
     }
     else if (strcmp(argv[1], "-2p") == 0)
     {

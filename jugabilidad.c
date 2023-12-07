@@ -4,7 +4,7 @@
 #include "battleship.h"
 
 /*
-    Que hace: Bucle de partida contra computadora, se encarga de que los jugadores se turnen para atacar y de que se acabe la partida cuando uno de los jugadores se quede sin barcos.
+    Que hace: Bucle de partida contra jugador, se encarga de que los jugadores se turnen para atacar y de que se acabe la partida cuando uno de los jugadores se quede sin barcos.
 */
 void partida_jugador()
 {
@@ -1312,7 +1312,7 @@ void reanudar_partida()
 }
 
 /*
-    Que hace: Bucle de partida contra computadora, se encarga de que los jugadores se turnen para atacar y de que se acabe la partida cuando uno de los jugadores se quede sin barcos.
+    Que hace: Bucle de partida contra jugador, se encarga de que los jugadores se turnen para atacar y de que se acabe la partida cuando uno de los jugadores se quede sin barcos.
 */
 void partida_jugador_argv(char *argv[])
 {
@@ -1509,4 +1509,150 @@ void partida_jugador_argv(char *argv[])
     }
 }
 
-//
+/*
+    Que hace: Bucle de partida contra computadora, se encarga de que los jugadores se turnen para atacar y de que se acabe la partida cuando uno de los jugadores se quede sin barcos.
+*/
+void partida_cpu_argv(char *argv[])
+{
+    // Variables
+    PLAYER jugador1;  // Datos de jugador
+    PLAYER cpu;       // Datos de CPU
+    int victoria = 0; // Para determinar si el juego ha terminado o no
+    int turno = 2;    // Para determinar de quien es el turno
+    int azar = 0;
+    int acertado = 0;
+    int acertado_cpu = 0;
+    int casilla_disparada[2] = {0}; // Almacena la casilla en donde CPU disparo en la ronda anterior.
+    int tipo_partida = 0;           // Representa que es una partida CPU, para la función guardar partida.
+    // Procesos
+
+    // Inicializar datos de CPU
+    strcpy(cpu.nombre, "KAREN");
+    cpu.num = 2;
+    cpu.mina = 1;
+    cpu.mina_viva = 0;
+    cpu.mina_mapa = 0;
+
+    // Primero el jugador registra sus datos
+    strcpy(jugador1.nombre, argv[2]);
+    jugador1.num = 1;
+    jugador1.mina = 1;
+    jugador1.mina_viva = 0;
+    jugador1.mina_mapa = 0;
+
+    // Luego se inicializan los tableros
+    inicializar_tablero(jugador1.tablero_defensa);
+    inicializar_tablero(cpu.tablero_defensa);
+    inicializar_tablero(jugador1.tablero_ataque);
+    inicializar_tablero(cpu.tablero_ataque);
+
+    // Luego se colocan los barcos del jugador
+    system("clear");
+    printf(YELLOW "\n\n\t¿Quieres colocar tus barcos al azar? (1 Si/ 0 No):     " RESET);
+    scanf("%d", &azar);
+    if (azar == 1)
+    {
+        printf(YELLOW "\n\nColocando tus Barcos:  \n" RESET);
+        colocar_barcos_azar(jugador1.tablero_defensa);
+    }
+    else
+    {
+        colocar_barcos(jugador1.tablero_defensa, jugador1.nombre);
+    }
+
+    // Luego se colocan los barcos de la CPU aleatoriamente
+    printf(YELLOW "\n\nColocando los Barcos de %s:  \n" RESET, cpu.nombre);
+    colocar_barcos_azar(cpu.tablero_defensa);
+
+    // Inicio de partida
+    turno = generar_numero(2); // Se decide quien empieza
+    system("clear");
+
+    while (victoria == 0)
+    {
+        if (turno == 0) // turno de jugador
+        {
+
+            if (jugador1.mina_mapa == 1)
+            {
+                mover_mina(&jugador1, cpu.tablero_defensa, jugador1.tablero_ataque, &acertado);
+            }
+
+            system("clear");
+            printf(YELLOW "\n\n\t\tTurno de %s\n\n" RESET, jugador1.nombre);
+            printf(BLUE "Tu tablero de defensa:     " RESET);
+
+            if (acertado == 1)
+            {
+                printf(RED "¡Te han disparado un barco!\n" RESET);
+            }
+            else
+            {
+                printf(GREEN "No te han disparado ningún barco\n" RESET);
+            }
+
+            imprimir_tablero(jugador1.tablero_defensa);
+            presionar_enter();
+
+            system("clear");
+            printf(YELLOW "\n\n\t\tTurno de %s\n\n" RESET, jugador1.nombre);
+            printf(RED "Tu tablero de ATAQUE\n" RESET);
+            imprimir_tablero(jugador1.tablero_ataque);
+
+            if (jugador1.mina == 1)
+            {
+                printf(YELLOW "FASE DE MINA ACUÁTICA" RESET);
+                lanzamiento_mina(jugador1.tablero_ataque, cpu.tablero_defensa, &jugador1, &acertado);
+            }
+
+            printf(YELLOW "FASE DE DISPARO\n" RESET);
+            atacar(jugador1.tablero_ataque, cpu.tablero_defensa, &acertado);
+
+            presionar_enter();
+            turno = 1;
+            victoria = detectar_victoria(cpu.tablero_defensa);
+            if (victoria == 1)
+            {
+                victoria = 1; // Determina que gano el jugador
+            }
+        }
+        else if (turno == 1) // turno de CPU
+        {
+            system("clear");
+            printf(YELLOW "\n\n\t\tTurno de %s\n\n" RESET, cpu.nombre);
+            mostrar_barra_carga(0, 100);
+            ataque_azar(jugador1.tablero_defensa, &acertado, &acertado_cpu, casilla_disparada);
+            mostrar_barra_carga(100, 100);
+            system("clear");
+            turno = 0;
+            victoria = detectar_victoria(jugador1.tablero_defensa);
+            if (victoria == 1)
+            {
+                victoria = 2; // Determina que gano el CPU
+            }
+        }
+
+        // Guardar estado de partida
+        guardar_partida(jugador1, cpu, tipo_partida, turno);
+    }
+
+    // Fin de partida
+    if (victoria == 1)
+    {
+        system("clear");
+        printf(GREEN "VICTORIA" RESET);
+        printf(" de ");
+        printf(YELLOW "%s\n" RESET, jugador1.nombre);
+        imprimir_tablero(jugador1.tablero_defensa);
+        printf("\n");
+    }
+    else if (victoria == 2)
+    {
+        system("clear");
+        printf(GREEN "VICTORIA" RESET);
+        printf(" de ");
+        printf(YELLOW "%s\n" RESET, cpu.nombre);
+        imprimir_tablero(cpu.tablero_defensa);
+        printf("\n");
+    }
+}
