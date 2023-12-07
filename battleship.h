@@ -48,22 +48,37 @@ void imprimir_tablero(int tablero[][TAB_SIZE]); // Imprime el tablero de juego, 
 void return_to_menu(int *seleccion);            // Regresa al menú principal
 
 // Jugabilidad____________________________________________________________________________________
-void partida_cpu();
-void inicializar_tablero(int tablero[][TAB_SIZE]);
-void colocar_barcos(int tablero[][TAB_SIZE], char nombre[]);
-void colocar_barcos_azar(int tablero[][TAB_SIZE]);
-void atacar(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], int *acertado);
-void ataque_azar(int tablero_victima[][TAB_SIZE], int *acertado, int *acertado_cpu, int casilla_disparada[2]);
-int detectar_victoria(int tablero[][TAB_SIZE]);
-void lanzamiento_mina(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], PLAYER *jugador, int *acertado);
-void mover_mina(PLAYER *jugador, int tablero_victima[][TAB_SIZE], int tablero_visible[][TAB_SIZE], int *acertado);
+void partida_cpu(); // Partdida contra computadora
+void inicializar_tablero(int tablero[][TAB_SIZE]); // Inicializa un tablero de 10x10.
+void colocar_barcos(int tablero[][TAB_SIZE], char nombre[]); // Colocar manualmente los barcos.
+void colocar_barcos_azar(int tablero[][TAB_SIZE]); // Se colocan de manera al azar los barcos en el tablero.
+void atacar(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], int *acertado); // Ataque manual.
+void ataque_azar(int tablero_victima[][TAB_SIZE], int *acertado, int *acertado_cpu, int casilla_disparada[2]); // Ataque de cpu.
+int detectar_victoria(int tablero[][TAB_SIZE]); // Determina si el jugador gano o no.
+void lanzamiento_mina(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], PLAYER *jugador, int *acertado); // Lanzar mina acuatica, se imprime en el tablero.
+void mover_mina(PLAYER *jugador, int tablero_victima[][TAB_SIZE], int tablero_visible[][TAB_SIZE], int *acertado); // Función para desplazar la mina acuatica en el tablero de ataque y defensa.
 void partida_jugador();
+/*
+Se declaran funciones relacionadas con la jugabilidad del juego, incluyendo la lógica para la partida contra la CPU, la 
+inicialización del tablero, la colocación de barcos, los ataques, la detección de victoria y las acciones relacionadas con las minas.
+*/
+
 // General_______________________________________________________________________________________
-int generar_numero(int limite);
-void mostrar_barra_carga(int paso, int total);
-char conv_mayus(char letra);
-void presionar_enter();
-void limpiar_buffer();
+int generar_numero(int limite); // Genera un número aleatorio para decidir qué jugador comienza.
+void mostrar_barra_carga(int paso, int total); // Imprime en pantalla una barra de carga con porcentaje.
+char conv_mayus(char letra); // Toma un carácter como entrada y devuelve ese carácter convertido a mayúsculas si era una letra minúscula. 
+void presionar_enter(); // Presionar "ENTER" para continuar.
+void limpiar_buffer(); // Esta función se utiliza para limpiar el buffer de entrada del teclado.
+  
+/*
+Se declaran funciones generales, como la generación de números aleatorios, 
+la impresión de barras de carga, la conversión de letras a mayúsculas, 
+la espera de la tecla "ENTER" y la limpieza del buffer.
+*/
 
 // Cargar y guardar_______________________________________________________________________________________
-void guardar_partida(PLAYER jugador);
+void guardar_partida(PLAYER jugador); // Guarda partida en un archivo de texto.
+
+/*
+Se declara la función guardar_partida que se encarga de guardar el estado de la partida en un archivo de texto.
+*/
