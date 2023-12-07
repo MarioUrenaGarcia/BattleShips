@@ -22,8 +22,46 @@ int main(int argc, char *argv[])
   int seleccion = 0;
 
   // Procesos
-  seleccion = main_menu();
+  if (argc == 1)
+  {
+    seleccion = main_menu();
+  }
+  else if (argc == 2)
+  {
+    system("clear");
+    printf(RED " \n\n\tFaltan argumentos\n\n" RESET);
+  }
 
+  else if (argc > 2)
+  {
+    if (strcmp(argv[1], "-h") == 0)
+    {
+      seleccion = 5;
+      return 0;
+    }
+    else if (strcmp(argv[1], "-1p") == 0)
+    {
+      seleccion = 1;
+    }
+    else if (strcmp(argv[1], "-2p") == 0)
+    {
+      seleccion = 2;
+    }
+    else if (strcmp(argv[1], "-f") == 0)
+    {
+      seleccion = 3;
+    }
+    else
+    {
+      printf("Argumento no válido\n");
+      return 1;
+    }
+  }
+  else
+  {
+    printf("Argumento no válido\n");
+    return 1;
+  }
   do
   {
     switch (seleccion)
