@@ -348,7 +348,7 @@ void partida_cpu()
 }
 
 /*
-    Que hace: Inicializa un tablero de 10x10 con 0s
+    Que hace: Inicializa un tablero de 10x10 con 0
 */
 void inicializar_tablero(int tablero[][TAB_SIZE])
 {
