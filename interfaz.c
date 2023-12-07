@@ -203,3 +203,78 @@ void pantalla_cambio()
 
     presionar_enter();
 }
+
+void manual_usuario()
+{
+    system("clear");
+
+    printf(YELLOW "\n\n\t Inicio del Juego\n\n\n" RESET);
+
+    printf("Elige el modo de juego: contra la computadora, contra otro jugador o cargar un juego guardado.\n\n");
+
+    printf("Configura tu partida con opciones como semilla de aleatoriedad y la modalidad de la mina.\n\n");
+
+    printf("Configuración de la Partida\n\n\n");
+
+    printf("Decide quién comienza el juego con el primer turno mediante selección aleatoria.\n\n");
+
+    printf("Introduce los nombres de los jugadores humanos.\n\n");
+
+    printf("Coloca estratégicamente tus barcos en una matriz de 10x10, siguiendo las reglas de Battleships.\n\n");
+
+    printf(YELLOW "\n\tDesarrollo del Juego\n\n\n" RESET);
+
+    printf("Realiza turnos alternados entre los jugadores.\n\n");
+
+    printf("En cada turno, verifica si el tiro anterior del rival atinó a alguno de tus barcos.\n\n");
+
+    printf("Selecciona coordenadas para disparar en el tablero del rival.\n\n");
+
+    printf("El juego indicará si el disparo fue acertado o falló.\n\n");
+
+    printf("El juego termina cuando un jugador hunde todos los barcos del rival.\n\n");
+
+    printf(YELLOW "\n\tModalidad de Mina Acuática\n\n\n" RESET);
+
+    printf("Antes de comenzar, elige la opción de utilizar una mina acuática.\n\n");
+
+    printf("Cada jugador puede usarla una vez por juego en lugar de realizar un tiro normal.\n\n");
+
+    printf("Elige una coordenada para colocar la mina en el tablero del rival.\n\n");
+
+    printf("La mina se moverá aleatoriamente en cada turno, marcando casillas como tiros.\n\n");
+
+    printf("Si la mina alcanza un barco, se considera un tiro acertado y la mina desaparece.\n\n");
+
+    printf(YELLOW "\n\tReglas Especiales\n\n\n" RESET);
+
+    printf("Coordenadas: Usa el formato A1, B3, etc., para ingresar disparos.\n\n");
+
+    printf("Posicionamiento de barcos: Indica la coordenada y dirección (A, B, D, I).\n\n");
+
+    printf("Guardar y cargar juego: Guarda tu progreso y carga partidas anteriores.\n\n");
+
+    printf(YELLOW "\n\tEjecución del Programa desde la Línea de Comandos\n\n\n" RESET);
+
+    printf("Inicia el juego con diferentes modos: un solo jugador, dos jugadores, cargar juego guardado.\n\n");
+
+    printf("Personaliza la semilla de aleatoriedad y activa la modalidad de la mina si lo deseas.\n\n");
+
+    printf("Ejemplos de Ejecución desde la Línea de Comandos\n\n");
+
+    printf("./battleships.out: Inicia el juego de manera regular.\n\n");
+
+    printf("./battleships.out -h: Despliega ayuda y el manual de usuario.\n\n");
+
+    printf("./battleships.out -1p <nombre_del_jugador>: Crea un juego de un solo jugador.\n\n");
+
+    printf("./battleships.out -1p <nombre_del_jugador> -s <semilla> -m: Configura un juego de un solo jugador con semilla y modalidad de mina.\n\n");
+
+    printf("./battleships.out -2p <nombre_del_jugador1> <nombre_del_jugador_2>: Inicia un juego de dos jugadores.\n\n");
+
+    printf("./battleships.out -2p <nombre_del_jugador1> <nombre_del_jugador_2> -s <semilla> -m: Configura un juego de dos jugadores con semilla y modalidad de mina.\n\n");
+
+    printf("./battleships.out -f <ruta_archivo>: Carga y resume un juego guardado.\n\n");
+
+    printf("¡Prepárate para la batalla submarina y que gane el estratega más astuto! \n\n");
+}
