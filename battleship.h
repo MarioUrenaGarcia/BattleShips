@@ -49,21 +49,21 @@ void return_to_menu(int *seleccion);            // Regresa al menú principal
 void pantalla_cambio();                         // Pantalla de cambio de jugador
 // Jugabilidad____________________________________________________________________________________
 void partida_cpu();
-void inicializar_tablero(int tablero[][TAB_SIZE]);
-void colocar_barcos(int tablero[][TAB_SIZE], char nombre[]);
-void colocar_barcos_azar(int tablero[][TAB_SIZE]);
-void atacar(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], int *acertado);
-void ataque_azar(int tablero_victima[][TAB_SIZE], int *acertado, int *acertado_cpu, int casilla_disparada[2]);
-int detectar_victoria(int tablero[][TAB_SIZE]);
-void lanzamiento_mina(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], PLAYER *jugador, int *acertado);
-void mover_mina(PLAYER *jugador, int tablero_victima[][TAB_SIZE], int tablero_visible[][TAB_SIZE], int *acertado);
-void partida_jugador();
+void inicializar_tablero(int tablero[][TAB_SIZE]); // Inicializa un tablero de 10x10.
+void colocar_barcos(int tablero[][TAB_SIZE], char nombre[]); // Posicionar barcos manualmente.
+void colocar_barcos_azar(int tablero[][TAB_SIZE]); // Se colocan los barcos al azar en el tablero.
+void atacar(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], int *acertado); // Función para que el jugador ataque una casilla del tablero del rival.
+void ataque_azar(int tablero_victima[][TAB_SIZE], int *acertado, int *acertado_cpu, int casilla_disparada[2]); // Función para que la computadora ataque una casilla del tablero del rival. NO HAY TIROS CONSECUTIVOS.
+int detectar_victoria(int tablero[][TAB_SIZE]); // Función para determinar si el jugador ha ganado o no.
+void lanzamiento_mina(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], PLAYER *jugador, int *acertado); // Función para lanzar la mina acuática manualmente.
+void mover_mina(PLAYER *jugador, int tablero_victima[][TAB_SIZE], int tablero_visible[][TAB_SIZE], int *acertado); // Funcion del movimiento de mina en el tablero.
+void partida_jugador(); // Función que contiene toda la partida.
 // General_______________________________________________________________________________________
-int generar_numero(int limite);
-void mostrar_barra_carga(int paso, int total);
-char conv_mayus(char letra);
-void presionar_enter();
-void limpiar_buffer();
+int generar_numero(int limite); // Se decide que jugador sera el primero en jugar.
+void mostrar_barra_carga(int paso, int total); // Impresion de una barra de carga para "generar" el tablero. (incliuye porcentaje)
+char conv_mayus(char letra); // Convierte de minus a mayus.
+void presionar_enter(); // Impersion en pantalla "PRESIONAR_ENTER", para continuar.
+void limpiar_buffer(); // Esta función se utiliza para limpiar el buffer de entrada del teclado.
 
 // Cargar y guardar_______________________________________________________________________________________
 void guardar_partida(PLAYER jugador);
