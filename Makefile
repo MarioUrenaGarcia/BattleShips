@@ -1,6 +1,5 @@
 exe: main.o interfaz.o jugabilidad.o general.o cargar.o
 	gcc -o battleships.out main.o interfaz.o jugabilidad.o general.o cargar.o
-	clear
 	./battleships.out
 
 main.o: main.c

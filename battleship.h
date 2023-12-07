@@ -56,6 +56,8 @@ int detectar_victoria(int tablero[][TAB_SIZE]);
 void lanzamiento_mina(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], PLAYER *jugador, int *acertado);
 void mover_mina(PLAYER *jugador, int tablero_victima[][TAB_SIZE], int tablero_visible[][TAB_SIZE], int *acertado);
 void partida_jugador();
+void reanudar_partida();
+
 // General_______________________________________________________________________________________
 int generar_numero(int limite);
 void mostrar_barra_carga(int paso, int total);

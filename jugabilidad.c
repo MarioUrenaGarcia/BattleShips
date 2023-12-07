@@ -1086,7 +1086,6 @@ void reanudar_partida()
     int tipo_partida = 0;           // Representa que es una partida CPU, para la función guardar partida.
 
     cargar_datos__partida(&jugador1, &jugador2, &tipo_partida, &turno);
-
     // Dependiendo de tipo_partida, se reauna la partida igual que en el modo de juego correspondiente.
 
     if (tipo_partida == 0)

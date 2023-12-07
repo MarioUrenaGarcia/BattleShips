@@ -17,7 +17,7 @@ void guardar_partida(PLAYER jugador1, PLAYER jugador2, int tipo_partida, int tur
 
         // Leer turno
         fprintf(archivo, "%d\n", turno);
-        
+
         // DATOS DE JUGADOR 1
         //  Escribe cada campo de la estructura en una línea separada
         fprintf(archivo, "%s\n", jugador1.nombre);
@@ -99,14 +99,14 @@ void cargar_datos__partida(PLAYER *jugador1, PLAYER *jugador2, int *tipo_partida
     if (archivo != NULL)
     {
         // Lee el tipo de partida
-        fscanf(archivo, "%d", &tipo_partida);
+        fscanf(archivo, "%d", tipo_partida);
 
         // lee el turno
-        fscanf(archivo, "%d", &turno);
+        fscanf(archivo, "%d", turno);
 
         // DATOS DE JUGADOR 1
         // Lee cada campo de la estructura desde una línea separada
-        fscanf(archivo, "%s", &jugador1->nombre);
+        fscanf(archivo, "%s", jugador1->nombre);
         fscanf(archivo, "%d", &jugador1->num);
         fscanf(archivo, "%d", &jugador1->mina);
         fscanf(archivo, "%d", &jugador1->mina_viva);
@@ -134,7 +134,7 @@ void cargar_datos__partida(PLAYER *jugador1, PLAYER *jugador2, int *tipo_partida
 
         // DATOS DE JUGADOR 2
         // Lee cada campo de la estructura desde una línea separada
-        fscanf(archivo, "%s", &jugador2->nombre);
+        fscanf(archivo, "%s", jugador2->nombre);
         fscanf(archivo, "%d", &jugador2->num);
         fscanf(archivo, "%d", &jugador2->mina);
         fscanf(archivo, "%d", &jugador2->mina_viva);
