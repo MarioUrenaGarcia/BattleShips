@@ -179,7 +179,7 @@ void partida_jugador()
         }
 
         // Guardar estado de partida
-        guardar_partida(jugador1, jugador2, tipo_partida);
+        guardar_partida(jugador1, jugador2, tipo_partida, turno);
     }
 
     // Fin de partida
@@ -328,7 +328,7 @@ void partida_cpu()
         }
 
         // Guardar estado de partida
-        guardar_partida(jugador1, cpu, tipo_partida);
+        guardar_partida(jugador1, cpu, tipo_partida, turno);
     }
 
     // Fin de partida
@@ -339,6 +339,15 @@ void partida_cpu()
         printf(" de ");
         printf(YELLOW "%s\n" RESET, jugador1.nombre);
         imprimir_tablero(jugador1.tablero_defensa);
+        printf("\n");
+    }
+    else if (victoria == 2)
+    {
+        system("clear");
+        printf(GREEN "VICTORIA" RESET);
+        printf(" de ");
+        printf(YELLOW "%s\n" RESET, cpu.nombre);
+        imprimir_tablero(cpu.tablero_defensa);
         printf("\n");
     }
 }
@@ -1056,6 +1065,249 @@ void mover_mina(PLAYER *jugador, int tablero_victima[][TAB_SIZE], int tablero_vi
                     jugador->mina_y = y;
                 }
             } while (fin_movimiento == 0);
+        }
+    }
+}
+
+/*
+    Que hace: Función para cargar datos de partida y continuar el juego desde donde quedó.
+*/
+void reanudar_partida()
+{
+    // Variables
+    PLAYER jugador1;  // Datos de jugador
+    PLAYER jugador2;  // Datos de CPU/jugador2
+    int victoria = 0; // Para determinar si el juego ha terminado o no
+    int turno = 2;    // Para determinar de quien es el turno
+    int azar = 0;
+    int acertado = 0;
+    int acertado_cpu = 0;
+    int casilla_disparada[2] = {0}; // Almacena la casilla en donde CPU disparo en la ronda anterior.
+    int tipo_partida = 0;           // Representa que es una partida CPU, para la función guardar partida.
+
+    cargar_datos__partida(&jugador1, &jugador2, &tipo_partida, &turno);
+
+    // Dependiendo de tipo_partida, se reauna la partida igual que en el modo de juego correspondiente.
+
+    if (tipo_partida == 0)
+    {
+        while (victoria == 0)
+        {
+            if (turno == 0) // turno de jugador 1
+            {
+
+                if (jugador1.mina_mapa == 1)
+                {
+                    mover_mina(&jugador1, jugador2.tablero_defensa, jugador1.tablero_ataque, &acertado);
+                }
+
+                system("clear");
+                printf(YELLOW "\n\n\t\tTurno de %s\n\n" RESET, jugador1.nombre);
+                printf(BLUE "Tu tablero de defensa:     " RESET);
+
+                if (acertado == 1)
+                {
+                    printf(RED "¡Te han disparado un barco!\n" RESET);
+                }
+                else
+                {
+                    printf(GREEN "No te han disparado ningún barco\n" RESET);
+                }
+
+                imprimir_tablero(jugador1.tablero_defensa);
+                presionar_enter();
+
+                system("clear");
+                printf(YELLOW "\n\n\t\tTurno de %s\n\n" RESET, jugador1.nombre);
+                printf(RED "Tu tablero de ATAQUE\n" RESET);
+                imprimir_tablero(jugador1.tablero_ataque);
+
+                if (jugador1.mina == 1)
+                {
+                    printf(YELLOW "FASE DE MINA ACUÁTICA" RESET);
+                    lanzamiento_mina(jugador1.tablero_ataque, jugador2.tablero_defensa, &jugador1, &acertado);
+                }
+
+                printf(YELLOW "FASE DE DISPARO\n" RESET);
+                atacar(jugador1.tablero_ataque, jugador2.tablero_defensa, &acertado);
+
+                presionar_enter();
+                turno = 1;
+                victoria = detectar_victoria(jugador2.tablero_defensa);
+                if (victoria == 1)
+                {
+                    victoria = 1; // Determina que gano el jugador
+                }
+
+                if (victoria == 0)
+                {
+                    pantalla_cambio();
+                }
+            }
+            else if (turno == 1) // turno de jugador 2
+            {
+
+                if (jugador2.mina_mapa == 1)
+                {
+                    mover_mina(&jugador2, jugador1.tablero_defensa, jugador2.tablero_ataque, &acertado);
+                }
+
+                system("clear");
+                printf(YELLOW "\n\n\t\tTurno de %s\n\n" RESET, jugador2.nombre);
+                printf(BLUE "Tu tablero de defensa:     " RESET);
+
+                if (acertado == 1)
+                {
+                    printf(RED "¡Te han disparado un barco!\n" RESET);
+                }
+                else
+                {
+                    printf(GREEN "No te han disparado ningún barco\n" RESET);
+                }
+
+                imprimir_tablero(jugador2.tablero_defensa);
+                presionar_enter();
+
+                system("clear");
+                printf(YELLOW "\n\n\t\tTurno de %s\n\n" RESET, jugador2.nombre);
+                printf(RED "Tu tablero de ATAQUE\n" RESET);
+                imprimir_tablero(jugador2.tablero_ataque);
+
+                if (jugador2.mina == 1)
+                {
+                    printf(YELLOW "FASE DE MINA ACUÁTICA" RESET);
+                    lanzamiento_mina(jugador2.tablero_ataque, jugador1.tablero_defensa, &jugador2, &acertado);
+                }
+
+                printf(YELLOW "FASE DE DISPARO\n" RESET);
+                atacar(jugador2.tablero_ataque, jugador1.tablero_defensa, &acertado);
+
+                presionar_enter();
+                turno = 0;
+                victoria = detectar_victoria(jugador1.tablero_defensa);
+                if (victoria == 1)
+                {
+                    victoria = 2; // Determina que gano el jugador
+                }
+
+                if (victoria == 0)
+                {
+                    pantalla_cambio();
+                }
+            }
+
+            // Guardar estado de partida
+            guardar_partida(jugador1, jugador2, tipo_partida, turno);
+        }
+
+        // Fin de partida
+        if (victoria == 1)
+        {
+            system("clear");
+            printf(GREEN "VICTORIA" RESET);
+            printf(" de ");
+            printf(YELLOW "%s\n" RESET, jugador1.nombre);
+            imprimir_tablero(jugador1.tablero_defensa);
+            printf("\n");
+        }
+        else if (victoria == 2)
+        {
+            system("clear");
+            printf(GREEN "VICTORIA" RESET);
+            printf(" de ");
+            printf(YELLOW "%s\n" RESET, jugador2.nombre);
+            imprimir_tablero(jugador2.tablero_defensa);
+            printf("\n");
+        }
+    }
+    else
+    {
+        while (victoria == 0)
+        {
+            if (turno == 0) // turno de jugador
+            {
+
+                if (jugador1.mina_mapa == 1)
+                {
+                    mover_mina(&jugador1, jugador2.tablero_defensa, jugador1.tablero_ataque, &acertado);
+                }
+
+                system("clear");
+                printf(YELLOW "\n\n\t\tTurno de %s\n\n" RESET, jugador1.nombre);
+                printf(BLUE "Tu tablero de defensa:     " RESET);
+
+                if (acertado == 1)
+                {
+                    printf(RED "¡Te han disparado un barco!\n" RESET);
+                }
+                else
+                {
+                    printf(GREEN "No te han disparado ningún barco\n" RESET);
+                }
+
+                imprimir_tablero(jugador1.tablero_defensa);
+                presionar_enter();
+
+                system("clear");
+                printf(YELLOW "\n\n\t\tTurno de %s\n\n" RESET, jugador1.nombre);
+                printf(RED "Tu tablero de ATAQUE\n" RESET);
+                imprimir_tablero(jugador1.tablero_ataque);
+
+                if (jugador1.mina == 1)
+                {
+                    printf(YELLOW "FASE DE MINA ACUÁTICA" RESET);
+                    lanzamiento_mina(jugador1.tablero_ataque, jugador2.tablero_defensa, &jugador1, &acertado);
+                }
+
+                printf(YELLOW "FASE DE DISPARO\n" RESET);
+                atacar(jugador1.tablero_ataque, jugador2.tablero_defensa, &acertado);
+
+                presionar_enter();
+                turno = 1;
+                victoria = detectar_victoria(jugador2.tablero_defensa);
+                if (victoria == 1)
+                {
+                    victoria = 1; // Determina que gano el jugador
+                }
+            }
+            else if (turno == 1) // turno de CPU
+            {
+                system("clear");
+                printf(YELLOW "\n\n\t\tTurno de %s\n\n" RESET, jugador2.nombre);
+                mostrar_barra_carga(0, 100);
+                ataque_azar(jugador1.tablero_defensa, &acertado, &acertado_cpu, casilla_disparada);
+                mostrar_barra_carga(100, 100);
+                system("clear");
+                turno = 0;
+                victoria = detectar_victoria(jugador1.tablero_defensa);
+                if (victoria == 1)
+                {
+                    victoria = 2; // Determina que gano el CPU
+                }
+            }
+
+            // Guardar estado de partida
+            guardar_partida(jugador1, jugador2, tipo_partida, turno);
+        }
+
+        // Fin de partida
+        if (victoria == 1)
+        {
+            system("clear");
+            printf(GREEN "VICTORIA" RESET);
+            printf(" de ");
+            printf(YELLOW "%s\n" RESET, jugador1.nombre);
+            imprimir_tablero(jugador1.tablero_defensa);
+            printf("\n");
+        }
+        else if (victoria == 2)
+        {
+            system("clear");
+            printf(GREEN "VICTORIA" RESET);
+            printf(" de ");
+            printf(YELLOW "%s\n" RESET, jugador2.nombre);
+            imprimir_tablero(jugador2.tablero_defensa);
+            printf("\n");
         }
     }
 }

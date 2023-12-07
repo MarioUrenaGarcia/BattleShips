@@ -64,4 +64,5 @@ void presionar_enter();
 void limpiar_buffer();
 
 // Cargar y guardar_______________________________________________________________________________________
-void guardar_partida(PLAYER jugador1, PLAYER jugador2, int tipo_partida);
+void guardar_partida(PLAYER jugador1, PLAYER jugador2, int tipo_partida, int turno);
+void cargar_datos__partida(PLAYER *jugador1, PLAYER *jugador2, int *tipo_partida, int *turno);

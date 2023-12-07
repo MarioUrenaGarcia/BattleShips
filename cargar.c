@@ -3,7 +3,7 @@
 #include "battleship.h"
 
 // Función para guardar la partida en un archivo de texto
-void guardar_partida(PLAYER jugador1, PLAYER jugador2, int tipo_partida)
+void guardar_partida(PLAYER jugador1, PLAYER jugador2, int tipo_partida, int turno)
 {
     char nombreArchivo[256] = "save.txt";
     // Abre el archivo en modo de escritura de texto ("w")
@@ -14,6 +14,10 @@ void guardar_partida(PLAYER jugador1, PLAYER jugador2, int tipo_partida)
     {
         // Leer tipo de partida
         fprintf(archivo, "%d\n", tipo_partida);
+
+        // Leer turno
+        fprintf(archivo, "%d\n", turno);
+        
         // DATOS DE JUGADOR 1
         //  Escribe cada campo de la estructura en una línea separada
         fprintf(archivo, "%s\n", jugador1.nombre);
@@ -85,7 +89,7 @@ void guardar_partida(PLAYER jugador1, PLAYER jugador2, int tipo_partida)
 }
 
 // Función para cargar la partida desde un archivo de texto
-void cargar_datos__partida(PLAYER *jugador1, PLAYER *jugador2, int *tipo_partida)
+void cargar_datos__partida(PLAYER *jugador1, PLAYER *jugador2, int *tipo_partida, int *turno)
 {
     char nombreArchivo[256] = "save.txt";
     // Abre el archivo en modo de lectura de texto ("r")
@@ -96,6 +100,9 @@ void cargar_datos__partida(PLAYER *jugador1, PLAYER *jugador2, int *tipo_partida
     {
         // Lee el tipo de partida
         fscanf(archivo, "%d", &tipo_partida);
+
+        // lee el turno
+        fscanf(archivo, "%d", &turno);
 
         // DATOS DE JUGADOR 1
         // Lee cada campo de la estructura desde una línea separada
