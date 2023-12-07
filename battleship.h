@@ -61,6 +61,7 @@ void partida_jugador();
 void reanudar_partida();
 void partida_jugador_argv(char *argv[]);
 void partida_cpu_argv(char *argv[]);
+
 // General_______________________________________________________________________________________
 int generar_numero(int limite);
 void mostrar_barra_carga(int paso, int total);

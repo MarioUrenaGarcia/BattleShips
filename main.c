@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 
   // Variables
   int seleccion = 0;
-
+  int semilla = 0;
   // Procesos
   if (argc == 1)
   {
@@ -40,10 +40,40 @@ int main(int argc, char *argv[])
       seleccion = 5;
       return 0;
     }
+    else if (strcmp(argv[1], "-1p") == 0 && argc > 3 && strcmp(argv[3], "-s") == 0)
+    {
+      if (argc == 4)
+      {
+        printf(RED " \n\n\tERROR: Faltan argumentos\n\n" RESET);
+        return 1;
+      }
+
+      else
+      {
+        semilla = atoi(argv[4]);
+        partida_cpu_argv(argv);
+        return_to_menu(&seleccion); // Función que regresa al menú principal
+      }
+    }
     else if (strcmp(argv[1], "-1p") == 0)
     {
       partida_cpu_argv(argv);
       return_to_menu(&seleccion); // Función que regresa al menú principal
+    }
+    else if (strcmp(argv[1], "-2p") == 0 && argc > 4 && strcmp(argv[3], "-s") == 0)
+    {
+      if (argc == 5)
+      {
+        printf(RED " \n\n\tERROR: Faltan argumentos\n\n" RESET);
+        return 1;
+      }
+
+      else
+      {
+        semilla = atoi(argv[4]);
+        partida_jugador_argv(argv);
+        return_to_menu(&seleccion); // Función que regresa al menú principal
+      }
     }
     else if (strcmp(argv[1], "-2p") == 0)
     {
