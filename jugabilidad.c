@@ -687,6 +687,7 @@ void atacar(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], in
         }
     }
 
+    // Realizar el ataque
     if (tablero_victima[y][x] == 1)
     {
         tablero_visible[y][x] = 3;
@@ -700,6 +701,7 @@ void atacar(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB_SIZE], in
     else
     {
         tablero_visible[y][x] = 2;
+        tablero_victima[y][x] = 2;
         system("clear");
         printf(RED "¡Fallaste!\n" RESET);
         imprimir_tablero(tablero_visible);
