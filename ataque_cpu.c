@@ -1,7 +1,5 @@
 /*
 
-POR CORREGIR: QUE EL ATAQUE DE LA CPU SEA MAS EFICIENTE E INTELIGENTE
-
 El puntero de dirección (*direccion_cpu) se utiliza para recordar la última dirección en la que la CPU realizó un disparo exitoso. Esta información se almacena para que en el siguiente turno, la CPU pueda realizar disparos adyacentes a la posición anterior, imitando un comportamiento más inteligente.
 
 En la parte del código donde la CPU ha acertado en el último disparo, se guarda la dirección seleccionada en la variable "direccion" en el puntero "*direccion_cpu". Luego, en el siguiente turno, cuando la CPU debe elegir una nueva dirección, se toma en cuenta esta última dirección exitosa. Esto significa que la CPU tratará de disparar en una casilla adyacente a la última casilla exitosa, replicando un comportamiento más estratégico.
@@ -12,10 +10,10 @@ Esencialmente, el puntero de dirección ayuda a la CPU a recordar y utilizar inf
 
 void ataque_azar(int tablero_victima[][TAB_SIZE], int *acertado, int *acertado_cpu, int casilla_disparada[2], int *direccion_cpu)
 {
-    int x, y;
-    int valido = 0;
+    int x, y; // Variables que representarán las coordenadas de un ataque en el juego de batalla naval.
+    int valido = 0; // Variable que se utilizará para verificar si las casillas adyacentes a la casilla anteriormente disparada son válidas.
     int direccion; // Variable para almacenar la dirección de ataque
-    int adyacentes = 0;
+    int adyacentes = 0; // Esta variable se usará para determinar si hay casillas adyacentes válidas a la casilla anteriormente disparada.
 
     // Establecer las coordenadas basadas en la dirección seleccionada
     x = casilla_disparada[1];
@@ -30,7 +28,10 @@ void ataque_azar(int tablero_victima[][TAB_SIZE], int *acertado, int *acertado_c
     {
         adyacentes = 1;
     }
-
+/*
+Verifica si las casillas adyacentes a la casilla disparada son válidas. 
+Si lo son, adyacentes se establece en 1; de lo contrario, se establece en 0.
+*/
     if (*acertado_cpu == 1)
     {
         do
@@ -67,6 +68,11 @@ void ataque_azar(int tablero_victima[][TAB_SIZE], int *acertado, int *acertado_c
     
     *direccion_cpu = -1;
     }
+    /*
+    Si el CPU ha acertado en el último disparo, elige una dirección de ataque aleatoria
+     y verifica que la casilla no haya sido atacada antes. Si no acertó, elige una casilla al azar evitando las casillas ya atacadas.
+    */
+    
 
     // Realizar el ataque
     if (tablero_victima[y][x] == 1)
@@ -93,8 +99,16 @@ void ataque_azar(int tablero_victima[][TAB_SIZE], int *acertado, int *acertado_c
             *acertado_cpu = 0;
 
             // Actualizar la última casilla disparada
+            
             casilla_disparada[0] = y;
             casilla_disparada[1] = x;
+
+    /*
+    Realiza el ataque en la casilla determinada por las coordenadas x e y. 
+    Actualiza el tablero y algunas variables según el resultado del ataque (acierto, fallo).
+    */
+
+
         }
     }
 }
