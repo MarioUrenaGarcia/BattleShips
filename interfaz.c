@@ -23,7 +23,7 @@ int main_menu()
     printf("\n2. Jugar contra Jugador");
     printf("\n3. Cargar Partida");
     printf("\n4. Salir del Juego");
-    printf("\n5. PRUEBAS");
+    printf("\n5. Ayuda");
     printf("\n\n");
 
     scanf(" %d", &input);
@@ -117,7 +117,6 @@ void return_to_menu(int *seleccion) // Seleccion es un puntero porque es necesar
  * Imprime el tablero de juego, el tablero de entrada depende de la situación.
  * @param tablero Matriz que representa el tablero de juego.
  */
-
 void imprimir_tablero(int tablero[][TAB_SIZE])
 {
     int i, j;
@@ -204,6 +203,9 @@ void pantalla_cambio()
     presionar_enter();
 }
 
+/**
+ * Que hace: Imprime el manual de usuario.
+ */
 void manual_usuario()
 {
     system("clear");

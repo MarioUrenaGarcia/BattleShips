@@ -11,10 +11,6 @@
 
   Descripción e intención del programa: Juego de Batalla Naval en C
 
-  Entradas:
-
-  Salidas:
-
 */
 
 // Main ----------------------------------------------------------------------------
@@ -23,20 +19,9 @@ int main(int argc, char *argv[])
 {
 
   // Variables
-  int tablero[TAB_SIZE][TAB_SIZE] = {0};
-  int tablero_prueba[TAB_SIZE][TAB_SIZE] = {{0, 0, 0, 0, 0, 0, 1, 1, 0, 0},
-                                            {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-                                            {0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
-                                            {0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
-                                            {0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
-                                            {0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
-                                            {1, 1, 0, 0, 0, 0, 0, 0, 1, 0},
-                                            {0, 0, 0, 0, 0, 1, 1, 1, 1, 0},
-                                            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
   int seleccion = 0;
-  // Procesos
 
+  // Procesos
   seleccion = main_menu();
 
   do
