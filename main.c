@@ -29,7 +29,8 @@ int main(int argc, char *argv[])
   else if (argc == 2)
   {
     system("clear");
-    printf(RED " \n\n\tFaltan argumentos\n\n" RESET);
+    printf(RED " \n\n\tERROR: Faltan argumentos\n\n" RESET);
+    return 1;
   }
 
   else if (argc > 2)
@@ -45,7 +46,8 @@ int main(int argc, char *argv[])
     }
     else if (strcmp(argv[1], "-2p") == 0)
     {
-      seleccion = 2;
+      partida_jugador_argv(argv);
+      return_to_menu(&seleccion); // Función que regresa al menú principal
     }
     else if (strcmp(argv[1], "-f") == 0)
     {
@@ -53,7 +55,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-      printf("Argumento no válido\n");
+      printf("ERROR: Argumento no válido\n");
       return 1;
     }
   }

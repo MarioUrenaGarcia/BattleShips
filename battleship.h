@@ -59,6 +59,7 @@ void lanzamiento_mina(int tablero_visible[][TAB_SIZE], int tablero_victima[][TAB
 void mover_mina(PLAYER *jugador, int tablero_victima[][TAB_SIZE], int tablero_visible[][TAB_SIZE], int *acertado);
 void partida_jugador();
 void reanudar_partida();
+void partida_jugador_argv(char *argv[]);
 
 // General_______________________________________________________________________________________
 int generar_numero(int limite);
